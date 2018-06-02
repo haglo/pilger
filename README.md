@@ -58,7 +58,7 @@ Target:	C:\dev\wildfly\wildfly-12\standalone\deployments\mysql-connector-java-5.
 
 http://http://localhost:9990
 
-Cofiguration > Subsystems > Datasources > Non-XA
+Configuration > Subsystems > Datasources > Non-XA
 
 - Name:			      PilgerDS   
 - JNDI:			      java:jboss/datasources/PilgerDS
