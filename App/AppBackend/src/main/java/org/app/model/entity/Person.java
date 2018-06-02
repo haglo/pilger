@@ -41,6 +41,8 @@ public class Person implements Serializable {
 	@NotNull
 	@Size(min = 0, max = 100)
 	private String lastName;
+	
+	private String comment;	
 
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<Address> addresses = new ArrayList<Address>();
@@ -67,6 +69,14 @@ public class Person implements Serializable {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	public List<Address> getAddresses() {
