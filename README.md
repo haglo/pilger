@@ -9,25 +9,25 @@ App with Java EE7 + Wildfly12 + Vaadin 8
 
 
 
-### 1. eclipse: Install IDE
+#### 1. eclipse: Install IDE
 Download: 	Eclipse IDE for Java EE Developers  
 InstallDir:	C:\dev\ide\e4.6-JEE  
 
 
 
-### 2. eclispe: Install JBOSS Tools   
+#### 2. eclispe: Install JBOSS Tools   
 Help > Eclipse Marketplace...   
 Search: 	JBoss   
 Install:	JBoss Tools 4.5.3.Final   
 
 
 
-### 3. MySQL: Install
+#### 3. MySQL: Install
 Standardinstallation
 
 
 
-### 4. MySQL: Create Database
+#### 4. MySQL: Create Database
 ```
 mysql -u root –p;
 CREATE DATABASE pilgerdb;
@@ -37,24 +37,24 @@ quit;
 ```
 
 
-### 5. WildFly: Install
+#### 5. WildFly: Install
 Download:	WildFly 12   
 InstallDir:	C:\dev\wildfly\wildfly-12
 
 
 
-### 6. Wildfly: Create user admin
+#### 6. Wildfly: Create user admin
 C:\dev\wildfly\wildfly-12\bin\add-user.bat
 
 
 
-### 7. WildFly: Deploy MySQL-Driver
+#### 7. WildFly: Deploy MySQL-Driver
 Source:	C:\Program Files (x86)\MySQL\Connector J 5.1\mysql-connector-java-5.1.45-bin.jar   
 Target:	C:\dev\wildfly\wildfly-12\standalone\deployments\mysql-connector-java-5.1.45-bin.jar
 
 
 
-### 8. WildFly: Create Datasource
+#### 8. WildFly: Create Datasource
 
 http://http://localhost:9990
 
