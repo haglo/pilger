@@ -60,3 +60,8 @@ Configuration > Subsystems > Datasources > Non-XA
 - User name:		  pilgeruser
 - Password:		    123atgfd
 
+
+#### 9. Maven
+Build: clean verify  
+Deploy: clean package wildfly:deploy 
+
