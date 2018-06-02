@@ -65,3 +65,6 @@ Configuration > Subsystems > Datasources > Non-XA
 Build: clean verify  
 Deploy: clean package wildfly:deploy 
 
+#### 10. Test
+http://localhost:8080/AppFrontend/
+
