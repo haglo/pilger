@@ -61,7 +61,7 @@ Configuration > Subsystems > Datasources > Non-XA
 - Password:		    123atgfd
 
 
-#### 9. Maven
+#### 9. Maven (execute on App, not on AppAggregat, AppFrontend and AppBackend)
 Build: clean verify  
 Deploy: clean package wildfly:deploy 
 
