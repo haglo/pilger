@@ -35,10 +35,12 @@ public class LoginView extends VerticalLayout implements View {
 
 	public LoginView() {
 		setSpacing(true);
+		setStyleName("login-form");
 
 		Label label = new Label("Enter your information below to log in.");
 		username = new TextField("Username");
 		password = new TextField("Password");
+//		password.addStyleName("v-password-textfield");
 
 		loginButton = new Button("Login", e -> {
 			if (validate(username.getValue(), password.getValue())) {
@@ -46,6 +48,7 @@ public class LoginView extends VerticalLayout implements View {
 			} else {}
 		});
 
+		addStyleName("v-login-view");
 		addComponent(label);
 		addComponent(username);
 		addComponent(password);

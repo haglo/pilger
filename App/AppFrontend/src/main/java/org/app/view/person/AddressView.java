@@ -31,7 +31,6 @@ public class AddressView extends VerticalLayout implements View {
 
 	public AddressView() {
 		grid = new Grid<Address>();
-		addComponent(new Label("Hallo Address View"));
 		addComponent(grid);
 	}
 

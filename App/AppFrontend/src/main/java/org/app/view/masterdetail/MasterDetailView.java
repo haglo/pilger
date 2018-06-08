@@ -56,6 +56,7 @@ public class MasterDetailView extends VerticalLayout implements View {
 		Label cLabel = new Label("MasterDetailContent");
 		Label head = new Label("MasterDetailLeftNavi");
 		head.addStyleName(ValoTheme.MENU_TITLE);
+		head.addStyleName("menu");
 
 		masterDetailLeftNavBar.addComponent(head);
 		masterDetailLeftNavBar.addComponent(showTitleView());
@@ -71,34 +72,6 @@ public class MasterDetailView extends VerticalLayout implements View {
 
 	}
 
-	// public MasterDetailView() {
-	// allView = new HorizontalLayout();
-	// masterDetailLeftNavBar = new VerticalLayout();
-	// masterDetailLeftNavBar.addStyleName(ValoTheme.MENU_ROOT);
-	// masterDetailContent = new CssLayout();
-	//
-	// Label cLabel = new Label("MasterDetailContent");
-	// Label head = new Label("MasterDetailLeftNavi");
-	// head.addStyleName(ValoTheme.MENU_TITLE);
-	//
-	// masterDetailLeftNavBar.addComponent(head);
-	// masterDetailLeftNavBar.addComponent(showTitleView());
-	// masterDetailLeftNavBar.addComponent(showLandView());
-	//
-	// masterDetailContent.addComponent(cLabel);
-	//
-	// allView.addComponent(masterDetailLeftNavBar);
-	// allView.addComponent(masterDetailContent);
-	// allView.setSizeFull();
-	//
-	// addComponent(new TopMainMenu());
-	// addComponent(allView);
-	//
-	// titleButton.addClickListener(event -> titleButton.setCaption("Title: You
-	// pushed it!"));
-	// landButton.addClickListener(event -> landButton.setCaption("Land: You pushed
-	// it!"));
-	// }
 
 	private Button showTitleView() {
 		titleButton = new Button("Title", new Button.ClickListener() {
@@ -110,16 +83,5 @@ public class MasterDetailView extends VerticalLayout implements View {
 		});
 		return titleButton;
 	}
-
-	// private Button showLandView() {
-	// landButton = new Button("Land", new Button.ClickListener() {
-	// @Override
-	// public void buttonClick(ClickEvent event) {
-	// masterDetailContent.removeAllComponents();
-	// masterDetailContent.addComponent(new LandView(landService));
-	// }
-	// });
-	// return landButton;
-	// }
 
 }

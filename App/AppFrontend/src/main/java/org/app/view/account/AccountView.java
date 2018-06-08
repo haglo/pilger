@@ -42,7 +42,7 @@ public class AccountView extends VerticalLayout implements View {
 
 
 	private Account entry;
-	private Set<Account> selected;
+	private Set<Account> selectedAccounts;
 	private Account selectedEntry;
 	private TextField firstEntryField = new TextField();
 	private TextField txfMailAddress = new TextField();
@@ -64,7 +64,7 @@ public class AccountView extends VerticalLayout implements View {
 
 	@PostConstruct
 	void init() {
-		selected = new HashSet<>();
+		selectedAccounts = new HashSet<>();
 		List<Account> accountList = accountService.findAll();
 		accountList.sort(Comparator.comparing(Account::getUsername));
 		
@@ -72,7 +72,7 @@ public class AccountView extends VerticalLayout implements View {
 		Grid<Account> grid = new Grid<Account>();
 		grid.setSelectionMode(SelectionMode.MULTI);
 		grid.addSelectionListener(event -> {
-			selected = event.getAllSelectedItems();
+			selectedAccounts = event.getAllSelectedItems();
 		});
 
 		grid.getEditor().setEnabled(true);
@@ -101,10 +101,10 @@ public class AccountView extends VerticalLayout implements View {
 		add.addClickListener(event -> addRow(accountService, grid));
 
 		Button delete = new Button("-");
-		delete.addClickListener(event -> deleteRow(accountService, selected, grid));
+		delete.addClickListener(event -> deleteRow(accountService, selectedAccounts, grid));
 
 		Button details = new Button("details");
-		details.addClickListener(event -> showDetails(accountService, selected, grid));
+		details.addClickListener(event -> showDetails(accountService, selectedAccounts, grid));
 
 		HorizontalLayout tb = new HorizontalLayout(add, delete, details);
 		addComponent(grid);

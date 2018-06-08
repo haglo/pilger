@@ -8,6 +8,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 
 import org.app.model.dao.PersonDAO;
+import org.app.model.entity.Account;
 import org.app.model.entity.Address;
 import org.app.model.entity.Person;
 

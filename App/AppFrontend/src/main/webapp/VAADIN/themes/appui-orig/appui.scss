@@ -28,10 +28,11 @@
 // Example variants can be copy/pasted from https://vaadin.com/wiki/-/wiki/Main/Valo+Examples
 
 @import "../valo/valo.scss";
-@import 'loginview';
+@import 'persongrid';
 
 @mixin appui {
   @include valo;
-  @include loginview;
+  @include persongrid;
+
   // Insert your own theme rules here
 }

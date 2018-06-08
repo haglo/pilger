@@ -16,13 +16,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 @Entity
-@NamedQueries({
-	@NamedQuery(name = Person.QUERY_GET_ALL, query = "SELECT c FROM Person c")
-})
-
-
+@NamedQueries({ @NamedQuery(name = Person.QUERY_GET_ALL, query = "SELECT c FROM Person c") })
 
 public class Person implements Serializable {
 
@@ -41,8 +36,8 @@ public class Person implements Serializable {
 	@NotNull
 	@Size(min = 0, max = 100)
 	private String lastName;
-	
-	private String comment;	
+
+	private String comment;
 
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<Address> addresses = new ArrayList<Address>();
@@ -86,41 +81,15 @@ public class Person implements Serializable {
 	public void setAddresses(List<Address> addresses) {
 		this.addresses = addresses;
 	}
-	
-    public void addAddress(Address address) {
-        addresses.add(address);
-        address.setPerson(this);
-    }
- 
-    public void removeAddress(Address address) {
-    	addresses.remove(address);
-    	address.setPerson(null);
-    }
-    
-	@Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Address)) {
-            return false;
-        }
-        Person other = (Person) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+	public void addAddress(Address address) {
+		addresses.add(address);
+		address.setPerson(this);
+	}
 
-    @Override
-    public String toString() {
-        return "app.Person[id=" + id + "]";
-    }
-
+	public void removeAddress(Address address) {
+		addresses.remove(address);
+		address.setPerson(null);
+	}
 
 }

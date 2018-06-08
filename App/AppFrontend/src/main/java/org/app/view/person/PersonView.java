@@ -19,10 +19,12 @@ import com.vaadin.cdi.CDIView;
 import com.vaadin.cdi.UIScoped;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -31,9 +33,7 @@ import com.vaadin.ui.VerticalLayout;
 @CDIView(MainUI.PERSON_VIEW)
 public class PersonView extends VerticalLayout implements View {
 
-	@EJB
-	private PersonDAO personDAO;
-	
+
 	@Inject
 	PersonService personService;
 
@@ -45,7 +45,7 @@ public class PersonView extends VerticalLayout implements View {
 	private Person person;
 	private Person selectedPerson;
 	private Set<Person> selectedPersons;
-	
+
 	private TextField txfFirstName = new TextField();
 	private TextField txfLastName = new TextField();
 	private TextField txfComment = new TextField();
@@ -56,26 +56,27 @@ public class PersonView extends VerticalLayout implements View {
 		addComponent(new TopMainMenu());
 	}
 
+
 	@PostConstruct
 	void init() {
 		selectedPersons = new HashSet<>();
-		List<Person> personList = personDAO.findAll();
+		List<Person> personList = personService.getPersonDAO().findAll();
 		personList.sort(Comparator.comparing(Person::getLastName));
 
 		DataProvider<Person, ?> dataProvider = DataProvider.ofCollection(personList);
 		Grid<Person> personGrid = new Grid<Person>();
 		personGrid.setSelectionMode(SelectionMode.MULTI);
+
 		personGrid.addSelectionListener(event -> {
 			selectedPersons = event.getAllSelectedItems();
 			person = new Person();
-			person = personDAO.findByID(1);
-			showAddresses(personDAO, person);
-			
-//			person = exactOneSelected(selectedPersons);
-//			System.out.println("Person " + person.getFirstName());
-//			if (person != null) {
-//				showAddresses(personDAO, selectedPerson);
-//			}
+			person = getTheSelectedPerson(selectedPersons);
+
+			// person = personDAO.findByID(1);
+			if (person != null) {
+				showAddresses(personService.getPersonDAO(), person);
+			}
+
 		});
 
 		personGrid.getEditor().setEnabled(true);
@@ -85,12 +86,13 @@ public class PersonView extends VerticalLayout implements View {
 		});
 
 		personGrid.setDataProvider(dataProvider);
-		
+
 		personGrid.addColumn(Person::getFirstName).setCaption(firstName).setEditorComponent(txfFirstName,
 				Person::setFirstName);
 		personGrid.addColumn(Person::getLastName).setCaption(lastName).setEditorComponent(txfLastName,
-				Person::setLastName);		
-		personGrid.addColumn(Person::getComment).setCaption(comment).setEditorComponent(txfComment, Person::setComment);	
+				Person::setLastName);
+		personGrid.addColumn(Person::getComment).setCaption(comment).setEditorComponent(txfComment, Person::setComment);
+
 		Button add = new Button("+");
 		add.addClickListener(event -> addRow(personService, personGrid));
 
@@ -101,7 +103,6 @@ public class PersonView extends VerticalLayout implements View {
 		addComponent(personGrid);
 		addComponent(tb);
 	}
-	
 
 	private void showAddresses(PersonDAO personDAO, Person selectedPerson) {
 
@@ -117,7 +118,8 @@ public class PersonView extends VerticalLayout implements View {
 		addComponent(addressView);
 	}
 
-	private Person getSelectedPerson(Set<Person> selectedPersons) {
+	private Person getTheSelectedPerson(Set<Person> selectedPersons) {
+		selectedPerson = new Person();
 		if (selectedPersons.size() > 1) {
 			Notification.show("Only one Item can be selected");
 			return null;
@@ -132,9 +134,9 @@ public class PersonView extends VerticalLayout implements View {
 			}
 		}
 		return selectedPerson;
-		
+
 	}
-	
+
 	private void addRow(PersonService personService, Grid<Person> personGrid) {
 		List<Person> list = personService.getPersonDAO().findAll();
 		person = new Person();
@@ -167,7 +169,7 @@ public class PersonView extends VerticalLayout implements View {
 		personService.getPersonDAO().update(person);
 		refreshGrid(personGrid, personService);
 	}
-	
+
 	private void refreshGrid(Grid<Person> personGrid, PersonService personService) {
 		List<Person> personList = personService.getPersonDAO().findAll();
 		personGrid.setItems(personList);
