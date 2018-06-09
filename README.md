@@ -1,8 +1,10 @@
-# pilger
+pilger
+======
 App with Java EE7 + Wildfly12 + Vaadin 8
 
 
-#### Here with:
+#### Requirements:
+- jdk 1.8
 - eclipse Oxygen   
 - MySQL 5.7   
 - WildFly 12   
@@ -38,7 +40,7 @@ Download:	WildFly 12
 InstallDir:	C:\dev\wildfly\wildfly-12
 <br/>
 
-#### 6. Wildfly: Create user admin
+#### 6. WildFly: Create user admin
 C:\dev\wildfly\wildfly-12\bin\add-user.bat
 <br/>
 
