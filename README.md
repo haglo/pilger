@@ -1,6 +1,6 @@
 pilger
 ======
-App with Java EE7 + Wildfly12 + Vaadin 8
+App with Java EE7 + Wildfly 12 + Vaadin 8
 
 
 #### Requirements:
