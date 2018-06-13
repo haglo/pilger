@@ -70,4 +70,7 @@ Deploy: clean package wildfly:deploy
 #### 10. Test
 http://localhost:8080/AppFrontend/
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/haglo/pilger.git
