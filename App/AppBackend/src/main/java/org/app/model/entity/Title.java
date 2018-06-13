@@ -3,6 +3,7 @@ package org.app.model.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,15 +20,12 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TITLE")
-@NamedQueries(
-		{ @NamedQuery(name = Title.QUERY_FIND_ALL, query = "SELECT c FROM Title c"),
-		  @NamedQuery(name = Title.QUERY_FIND_BY_PRIORITY, query = "SELECT c FROM Title c WHERE c.listPrio =  :listPrio") 
-		}
-)
+@NamedQueries({ @NamedQuery(name = Title.QUERY_FIND_ALL, query = "SELECT c FROM Title c"),
+		@NamedQuery(name = Title.QUERY_FIND_BY_PRIORITY, query = "SELECT c FROM Title c WHERE c.listPrio =  :listPrio") })
 public class Title implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final String QUERY_FIND_ALL = "Title.FindAll";
 	public static final String QUERY_FIND_BY_PRIORITY = "Title.FindByPriority";
 
@@ -37,11 +35,11 @@ public class Title implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	/**
 	 * Einbinden: Entity Account über ComboBox
 	 */
-	@ManyToOne()
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "CREATEBY_ID")
 	private Account createBy;
 
@@ -55,8 +53,8 @@ public class Title implements Serializable {
 	@NotNull
 	private int listPrio;
 
-	@Column(name = "value", unique = true, nullable = false)
-	private String value;
+	@Column(unique = true, nullable = false)
+	private String titleValue;
 
 	private String comment;
 
@@ -92,12 +90,12 @@ public class Title implements Serializable {
 		this.listPrio = listPrio;
 	}
 
-	public String getValue() {
-		return value;
+	public String getTitleValue() {
+		return titleValue;
 	}
 
-	public void setValue(String title) {
-		this.value = title;
+	public void setTitleValue(String title) {
+		this.titleValue = title;
 	}
 
 	public String getComment() {

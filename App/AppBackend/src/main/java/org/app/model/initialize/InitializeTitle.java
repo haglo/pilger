@@ -27,27 +27,27 @@ public class InitializeTitle {
 
 			title.setCreateBy(accountDAO.findByID(1));;
 			title.setListPrio(0);
-			title.setValue("Prof.");
+			title.setTitleValue("Prof.");
 			titleDAO.create(title);
 
 			title.setCreateBy(accountDAO.findByID(1));;
 			title.setListPrio(1);
-			title.setValue("PD");
+			title.setTitleValue("PD");
 			titleDAO.create(title);
 
 			title.setCreateBy(accountDAO.findByID(1));;
 			title.setListPrio(2);
-			title.setValue("Dr.");
+			title.setTitleValue("Dr.");
 			titleDAO.create(title);
 
 			title.setCreateBy(accountDAO.findByID(2));;
 			title.setListPrio(3);
-			title.setValue("Graf");
+			title.setTitleValue("Graf");
 			titleDAO.create(title);
 
 			title.setCreateBy(accountDAO.findByID(2));;
 			title.setListPrio(4);
-			title.setValue("Freiherr");
+			title.setTitleValue("Freiherr");
 			titleDAO.create(title);
 
 		}

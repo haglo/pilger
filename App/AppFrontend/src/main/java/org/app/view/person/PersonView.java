@@ -7,16 +7,20 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.ejb.PostActivate;
 import javax.inject.Inject;
 
 import org.app.view.MainUI;
+import org.app.view.Messages;
 import org.app.view.TopMainMenu;
+import org.app.view.Translatable;
 import org.app.controler.PersonService;
 import org.app.model.dao.PersonDAO;
 import org.app.model.entity.Person;
 
 import com.vaadin.cdi.CDIView;
 import com.vaadin.cdi.UIScoped;
+import com.vaadin.cdi.ViewScoped;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -31,11 +35,14 @@ import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
 @CDIView(MainUI.PERSON_VIEW)
-public class PersonView extends VerticalLayout implements View {
+@UIScoped
+public class PersonView extends VerticalLayout implements View, Translatable {
 
 
 	@Inject
 	PersonService personService;
+	
+	private String tmpMessage = "!!!!Person_default---";
 
 	final private String firstName = "Vorname";
 	final private String lastName = "Nachname";
@@ -49,6 +56,8 @@ public class PersonView extends VerticalLayout implements View {
 	private TextField txfFirstName = new TextField();
 	private TextField txfLastName = new TextField();
 	private TextField txfComment = new TextField();
+	private Label lblWelcomeMessage = new Label();;
+	private Grid<Person> personGrid = new Grid<Person>();
 
 	public PersonView() {
 		setSizeFull();
@@ -64,7 +73,6 @@ public class PersonView extends VerticalLayout implements View {
 		personList.sort(Comparator.comparing(Person::getLastName));
 
 		DataProvider<Person, ?> dataProvider = DataProvider.ofCollection(personList);
-		Grid<Person> personGrid = new Grid<Person>();
 		personGrid.setSelectionMode(SelectionMode.MULTI);
 
 		personGrid.addSelectionListener(event -> {
@@ -88,10 +96,10 @@ public class PersonView extends VerticalLayout implements View {
 		personGrid.setDataProvider(dataProvider);
 
 		personGrid.addColumn(Person::getFirstName).setCaption(firstName).setEditorComponent(txfFirstName,
-				Person::setFirstName);
+				Person::setFirstName).setId(firstName);
 		personGrid.addColumn(Person::getLastName).setCaption(lastName).setEditorComponent(txfLastName,
-				Person::setLastName);
-		personGrid.addColumn(Person::getComment).setCaption(comment).setEditorComponent(txfComment, Person::setComment);
+				Person::setLastName).setId(lastName);
+		personGrid.addColumn(Person::getComment).setCaption(comment).setEditorComponent(txfComment, Person::setComment).setId(comment);;
 
 		Button add = new Button("+");
 		add.addClickListener(event -> addRow(personService, personGrid));
@@ -99,11 +107,15 @@ public class PersonView extends VerticalLayout implements View {
 		Button delete = new Button("-");
 		delete.addClickListener(event -> deleteRow(personService, selectedPersons, personGrid));
 
+
+
+		addComponent(lblWelcomeMessage);
+		
 		HorizontalLayout tb = new HorizontalLayout(add, delete);
 		addComponent(personGrid);
 		addComponent(tb);
 	}
-
+	
 	private void showAddresses(PersonDAO personDAO, Person selectedPerson) {
 
 		try {
@@ -174,4 +186,15 @@ public class PersonView extends VerticalLayout implements View {
 		List<Person> personList = personService.getPersonDAO().findAll();
 		personGrid.setItems(personList);
 	}
+	
+	@Override
+	public void updateMessageStrings() {
+		final Messages messages = Messages.getInstance();
+		lblWelcomeMessage.setCaption(messages.getMessage("person.welcomemessage")); 
+		personGrid.getColumn(firstName).setCaption(messages.getMessage("person.surname"));
+		personGrid.getColumn(lastName).setCaption(messages.getMessage("person.lastname"));
+		personGrid.getColumn(comment).setCaption(messages.getMessage("basic.comment"));
+
+	}
+
 }

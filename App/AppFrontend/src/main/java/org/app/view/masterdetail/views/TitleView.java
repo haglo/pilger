@@ -79,8 +79,8 @@ public class TitleView extends VerticalLayout implements View {
 
 		grid.setDataProvider(dataProvider);
 		grid.addColumn(Title::getListPrio).setCaption(listPriority).setId(listPriority);
-		grid.addColumn(title -> title.getValue()).setCaption(value).setEditorComponent(newValueField,
-				Title::setValue);
+		grid.addColumn(title -> title.getTitleValue()).setCaption(value).setEditorComponent(newValueField,
+				Title::setTitleValue);
 		grid.addColumn(Title::getComment).setCaption(comment).setEditorComponent(newCommentField,
 				Title::setComment);
 
@@ -106,6 +106,7 @@ public class TitleView extends VerticalLayout implements View {
 		details.addClickListener(event -> showDetails(service, selected, grid, accountList));
 
 		HorizontalLayout tb = new HorizontalLayout(add, delete, up, top, down, bottom, details);
+		
 		addComponent(grid);
 		addComponent(tb);
 	}
@@ -118,8 +119,9 @@ public class TitleView extends VerticalLayout implements View {
 		entry = new Title();
 		List<Title> list = service.getTitleDAO().findAll();
 
+		entry.setCreateBy(getSession().getAttribute(Account.class));
 		entry.setListPrio(getMaxListPrio(service) + 1);
-		entry.setValue("");
+		entry.setTitleValue("");
 		list.add(entry);
 		grid.setItems(list);
 
@@ -247,6 +249,7 @@ public class TitleView extends VerticalLayout implements View {
 	}
 
 	private void updateRow(TitleService service, Title title, Grid<Title> grid) {
+		title.setModifyBy(getSession().getAttribute(Account.class));
 		service.getTitleDAO().update(title);
 		refreshGrid(grid, service);
 	}
@@ -306,7 +309,7 @@ public class TitleView extends VerticalLayout implements View {
 			TextField txfListPrio = new TextField(listPriority, "" + selectedEntry.getListPrio());
 			subContent.addComponent(txfListPrio);
 
-			TextField txfValue = new TextField(value, "" + selectedEntry.getValue());
+			TextField txfValue = new TextField(value, "" + selectedEntry.getTitleValue());
 			subContent.addComponent(txfValue);
 
 			TextArea txaComment = new TextArea(comment, "" + selectedEntry.getComment());
@@ -331,7 +334,7 @@ public class TitleView extends VerticalLayout implements View {
 				selectedEntry.setCreateBy(selectedCreateBy);
 				selectedEntry.setModifyBy(selectedModifyBy);
 				selectedEntry.setListPrio(Integer.valueOf(txfListPrio.getValue()));
-				selectedEntry.setValue(txfValue.getValue());
+				selectedEntry.setTitleValue(txfValue.getValue());
 				selectedEntry.setComment(txaComment.getValue());
 				updateRow(service, selectedEntry, grid);
 			});
