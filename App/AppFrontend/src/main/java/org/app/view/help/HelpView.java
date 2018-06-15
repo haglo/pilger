@@ -1,5 +1,9 @@
 package org.app.view.help;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
+import org.app.controler.SessionService;
 import org.app.model.entity.Account;
 import org.app.view.MainUI;
 import org.app.view.TopMainMenu;
@@ -19,21 +23,25 @@ import com.vaadin.ui.VerticalLayout;
 @CDIView(MainUI.HELP_VIEW)
 @UIScoped
 public class HelpView extends VerticalLayout implements View {
+	
+	@Inject
+	SessionService sessionService;
 
 	public HelpView() {
 		setSizeFull();
 		setSpacing(true);
 
-		
-//		Account account = (Account) getSession().getAttribute(Account.class.getName());
-//		Label username = new Label(account.getUsername());
-		String user= ((MainUI) UI.getCurrent()).getLoginAccount().getUsername();
-		Label username = new Label(user);
-		
 		addComponent(new TopMainMenu());
 		addComponent(headingLabel());
 		addComponent(someText());
+
+	}
+	
+	@PostConstruct
+	void init(){
+		Label username = new Label(sessionService.getCurrentUser().getUsername());
 		addComponent(username);
+		
 	}
 
 	@Override

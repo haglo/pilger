@@ -16,9 +16,11 @@ import org.app.view.MainUI;
 import org.app.view.TopMainMenu;
 
 import com.vaadin.cdi.CDIView;
+import com.vaadin.client.ui.Icon;
 import com.vaadin.data.Binder;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.data.sort.SortDirection;
@@ -84,29 +86,39 @@ public class TitleView extends VerticalLayout implements View {
 		grid.addColumn(Title::getComment).setCaption(comment).setEditorComponent(newCommentField,
 				Title::setComment);
 
+		Button edit = new Button("Edit");
+		edit.setIcon(VaadinIcons.EDIT);
+		
+		
 		Button add = new Button("+");
 		add.addClickListener(event -> addRow(service, grid));
 
 		Button delete = new Button("-");
 		delete.addClickListener(event -> deleteRow(service, selected, grid));
 
-		Button up = new Button("up");
+		Button up = new Button();
+		up.setIcon(VaadinIcons.ARROW_UP);
 		up.addClickListener(event -> upRow(service, selected, grid));
 
-		Button top = new Button("top");
+		Button top = new Button();
+		top.setIcon(VaadinIcons.UPLOAD_ALT);
 		top.addClickListener(event -> topRow(service, selected, grid));
 
-		Button down = new Button("down");
+		Button down = new Button();
+		down.setIcon(VaadinIcons.ARROW_DOWN);
 		down.addClickListener(event -> downRow(service, selected, grid));
 
-		Button bottom = new Button("bottom");
+		Button bottom = new Button();
+		bottom.setIcon(VaadinIcons.DOWNLOAD_ALT);
 		bottom.addClickListener(event -> bottomRow(service, selected, grid));
 
-		Button details = new Button("details");
+		Button details = new Button();
+		details.setIcon(VaadinIcons.PENCIL);
 		details.addClickListener(event -> showDetails(service, selected, grid, accountList));
 
 		HorizontalLayout tb = new HorizontalLayout(add, delete, up, top, down, bottom, details);
 		
+		addStyleName("v-small-navigation-bar");
 		addComponent(grid);
 		addComponent(tb);
 	}

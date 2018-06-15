@@ -1,0 +1,43 @@
+@mixin mainMenues {
+	.v-small-navigation-bar {
+     	background-position: top;
+
+      	.v-button {
+        	border-radius: 0;
+        	font-weight: bold;
+        	font-size: 24px;
+      	}
+		.v-horizontal > .v-spacing {
+    		width: 0px;
+		}
+	}
+
+	.v-left-master-detail-navigation-bar {
+
+     	background-position: top;
+		.v-vertical > .v-spacing {
+		    height: 20px;
+		}
+	
+	}
+
+	.v-top-navigation-bar {
+     	background-position: top;
+
+      	.v-button {
+        	border-radius: 0;
+        	font-size: 28px;
+        	border: 1px solid green;
+        	display: inline-block;
+        	height: 50px;
+      	}
+		.v-horizontal > .v-spacing {
+    		width: 20px;
+		}
+	}
+
+
+}
+
+
+

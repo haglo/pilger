@@ -20,7 +20,7 @@ public class AccountService {
 	private AccountDAO accountDAO;
 
 	private Account account;
-	private PasswordService passwordService;
+	private EncryptService encryptService;
 	private boolean isEditing = false;
 
 	public boolean getEditing() {
@@ -40,7 +40,7 @@ public class AccountService {
 	}
 
 	public void create(Account account) {
-		account.setPassword(passwordService.encodePassword(account.getPassword()));
+		account.setPassword(encryptService.encodePassword(account.getPassword()));
 		accountDAO.create(account);
 	}
 

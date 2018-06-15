@@ -18,10 +18,9 @@ public class LanguageSelector extends ComboBox<Locale> implements Translatable {
 		setItems(getLanguageList());
 		setValue(Locale.ENGLISH);
 		setEmptySelectionAllowed(false);
-
 		addValueChangeListener(e -> {
-//			getUI().setLocale((Locale) getValue());
-			((MainUI) UI.getCurrent()).setLocale((Locale) getValue());
+			getUI().setLocale((Locale) getValue());
+//			((MainUI) UI.getCurrent()).setLocale((Locale) getValue());
 
 		});
 	}

@@ -29,9 +29,13 @@
 
 @import "../valo/valo.scss";
 @import 'loginview';
+@import 'menu';
 
 @mixin appui {
   @include valo;
   @include loginview;
+  
+  @include mainMenues;
+
   // Insert your own theme rules here
 }

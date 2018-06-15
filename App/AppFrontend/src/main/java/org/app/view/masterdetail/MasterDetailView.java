@@ -68,6 +68,7 @@ public class MasterDetailView extends VerticalLayout implements View {
 		allView.addComponent(masterDetailContent);
 		allView.setSizeFull();
 
+		addStyleName("v-left-master-detail-navigation-bar");
 		addComponent(allView);
 
 	}

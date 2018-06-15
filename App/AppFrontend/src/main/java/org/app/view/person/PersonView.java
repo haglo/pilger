@@ -3,6 +3,7 @@ package org.app.view.person;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -11,7 +12,7 @@ import javax.ejb.PostActivate;
 import javax.inject.Inject;
 
 import org.app.view.MainUI;
-import org.app.view.Messages;
+import org.app.view.I18nManager;
 import org.app.view.TopMainMenu;
 import org.app.view.Translatable;
 import org.app.controler.PersonService;
@@ -31,6 +32,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
@@ -38,11 +40,8 @@ import com.vaadin.ui.VerticalLayout;
 @UIScoped
 public class PersonView extends VerticalLayout implements View, Translatable {
 
-
 	@Inject
 	PersonService personService;
-	
-	private String tmpMessage = "!!!!Person_default---";
 
 	final private String firstName = "Vorname";
 	final private String lastName = "Nachname";
@@ -56,7 +55,8 @@ public class PersonView extends VerticalLayout implements View, Translatable {
 	private TextField txfFirstName = new TextField();
 	private TextField txfLastName = new TextField();
 	private TextField txfComment = new TextField();
-	private Label lblWelcomeMessage = new Label();;
+	private Label welcomeMessageLabel = new Label();
+	private Label langMesssageLabel = new Label();
 	private Grid<Person> personGrid = new Grid<Person>();
 
 	public PersonView() {
@@ -64,7 +64,6 @@ public class PersonView extends VerticalLayout implements View, Translatable {
 		setSpacing(true);
 		addComponent(new TopMainMenu());
 	}
-
 
 	@PostConstruct
 	void init() {
@@ -95,11 +94,12 @@ public class PersonView extends VerticalLayout implements View, Translatable {
 
 		personGrid.setDataProvider(dataProvider);
 
-		personGrid.addColumn(Person::getFirstName).setCaption(firstName).setEditorComponent(txfFirstName,
-				Person::setFirstName).setId(firstName);
-		personGrid.addColumn(Person::getLastName).setCaption(lastName).setEditorComponent(txfLastName,
-				Person::setLastName).setId(lastName);
-		personGrid.addColumn(Person::getComment).setCaption(comment).setEditorComponent(txfComment, Person::setComment).setId(comment);;
+		personGrid.addColumn(Person::getFirstName).setCaption(firstName)
+				.setEditorComponent(txfFirstName, Person::setFirstName).setId(firstName);
+		personGrid.addColumn(Person::getLastName).setCaption(lastName)
+				.setEditorComponent(txfLastName, Person::setLastName).setId(lastName);
+		personGrid.addColumn(Person::getComment).setCaption(comment).setEditorComponent(txfComment, Person::setComment)
+				.setId(comment);
 
 		Button add = new Button("+");
 		add.addClickListener(event -> addRow(personService, personGrid));
@@ -107,15 +107,14 @@ public class PersonView extends VerticalLayout implements View, Translatable {
 		Button delete = new Button("-");
 		delete.addClickListener(event -> deleteRow(personService, selectedPersons, personGrid));
 
-
-
-		addComponent(lblWelcomeMessage);
-		
 		HorizontalLayout tb = new HorizontalLayout(add, delete);
+
+		addComponent(langMesssageLabel);
+		addComponent(welcomeMessageLabel);
 		addComponent(personGrid);
 		addComponent(tb);
 	}
-	
+
 	private void showAddresses(PersonDAO personDAO, Person selectedPerson) {
 
 		try {
@@ -186,14 +185,21 @@ public class PersonView extends VerticalLayout implements View, Translatable {
 		List<Person> personList = personService.getPersonDAO().findAll();
 		personGrid.setItems(personList);
 	}
-	
+
 	@Override
 	public void updateMessageStrings() {
-		final Messages messages = Messages.getInstance();
-		lblWelcomeMessage.setCaption(messages.getMessage("person.welcomemessage")); 
-		personGrid.getColumn(firstName).setCaption(messages.getMessage("person.surname"));
-		personGrid.getColumn(lastName).setCaption(messages.getMessage("person.lastname"));
-		personGrid.getColumn(comment).setCaption(messages.getMessage("basic.comment"));
+		final I18nManager i18n = I18nManager.getInstance();
+		welcomeMessageLabel.setCaption(i18n.getMessage("person.welcomemessage"));
+		langMesssageLabel.setCaption(
+				i18n.getMessage("person.language", getLoc().getCountry(), getLoc().getLanguage(), getLoc().toString()));
+		personGrid.getColumn(firstName).setCaption(i18n.getMessage("person.surname"));
+		personGrid.getColumn(lastName).setCaption(i18n.getMessage("person.lastname"));
+		personGrid.getColumn(comment).setCaption(i18n.getMessage("basic.comment"));
+
+	}
+
+	public Locale getLoc() {
+		return ((MainUI) UI.getCurrent()).getLocale();
 
 	}
 

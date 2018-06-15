@@ -1,5 +1,6 @@
 package org.app.view;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CustomComponent;
@@ -11,6 +12,11 @@ public class TopMainMenu extends CustomComponent {
 
 	public TopMainMenu() {
 		HorizontalLayout layout = new HorizontalLayout();
+		personViewButton.setIcon(VaadinIcons.FAMILY);
+		masterDetailViewButton.setIcon(VaadinIcons.NEWSPAPER);
+		accountViewButton.setIcon(VaadinIcons.USER);
+		helpViewButton.setIcon(VaadinIcons.QUESTION);
+		
 		layout.addComponent(personViewButton);
 		layout.addComponent(masterDetailViewButton);
 		layout.addComponent(accountViewButton);
@@ -21,24 +27,25 @@ public class TopMainMenu extends CustomComponent {
 		layout.setSpacing(true);
 		setSizeUndefined();
 		setCompositionRoot(layout);
+		addStyleName("v-top-navigation-bar");
 	}
 	
 	
-	Button personViewButton = new Button(MainUI.PERSON_VIEW,
+	Button personViewButton = new Button("",
 			e -> UI.getCurrent().getNavigator().navigateTo(MainUI.PERSON_VIEW));
 		
-	Button masterDetailViewButton = new Button(MainUI.MASTER_DETAIL_VIEW,
+	Button masterDetailViewButton = new Button("",
 			e -> UI.getCurrent().getNavigator().navigateTo(MainUI.MASTER_DETAIL_VIEW));
 		
-	Button accountViewButton = new Button(MainUI.ACCOUNT_VIEW,
+	Button accountViewButton = new Button("",
 			e -> UI.getCurrent().getNavigator().navigateTo(MainUI.ACCOUNT_VIEW));
 
-	Button helpViewButton = new Button(MainUI.HELP_VIEW,
+	Button helpViewButton = new Button("",
 			e -> UI.getCurrent().getNavigator().navigateTo(MainUI.HELP_VIEW));
 		
 
 	private Button logoutButton() {
-		Button button = new Button("Logout", new Button.ClickListener() {
+		Button button = new Button("", new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				getUI().getSession().close();
@@ -46,6 +53,7 @@ public class TopMainMenu extends CustomComponent {
 				getUI().getPage().reload();
 			}
 		});
+		button.setIcon(VaadinIcons.SIGN_OUT);
 		return button;
 	}
 	

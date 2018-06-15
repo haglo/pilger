@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
+import org.app.controler.SessionService;
 import org.app.model.entity.Account;
 import org.app.view.login.LoginView;
 import com.vaadin.annotations.Theme;
@@ -27,10 +28,12 @@ public class MainUI extends UI {
 
 	@Inject
 	LoginView loginView;
-
-	private Account loginAccount;
-	private Navigator navigator;
 	
+	@Inject
+	SessionService sessionService;
+
+	private Navigator navigator;
+
 	public static final String PERSON_VIEW = "Person";
 	public static final String MASTER_DETAIL_VIEW = "MasterDetail";
 	public static final String ACCOUNT_VIEW = "Account";
@@ -50,10 +53,7 @@ public class MainUI extends UI {
 		return getSession().getAttribute(Account.class.getName()) != null;
 	}
 
-	public void loginSuccessful(Account account) {
-		// Store somewhere logged user state
-		// This is only an example, do it in a better way :D
-		getSession().setAttribute(Account.class.getName(), account);
+	public void loginSuccessful() {
 		setupMainLayout();
 	}
 
@@ -71,13 +71,8 @@ public class MainUI extends UI {
 		navigator = new Navigator(this, contentView);
 		navigator.addProvider(viewProvider);
 
-		// No need to add views manually with CDIViewProvider
-		// All @CDIView annotated classes will be automatically found
-		// navigator.addView(PERSON_VIEW, PersonView.class);
 		navigator.setErrorView(loginView);
 
-		// If there is no state in URL and there is no a default view (state = "")
-		// navigate to a known view
 		String initialState = Optional.ofNullable(navigator.getState()).filter(state -> !state.trim().isEmpty())
 				.orElse(PERSON_VIEW);
 		navigator.navigateTo(initialState);
@@ -89,6 +84,11 @@ public class MainUI extends UI {
 		updateMessageStrings(getContent());
 	}
 
+	@Override
+	public Locale getLocale() {
+		return super.getLocale();
+	}
+	
 	private void updateMessageStrings(Component component) {
 		if (component instanceof Translatable) {
 			((Translatable) component).updateMessageStrings();
@@ -98,13 +98,4 @@ public class MainUI extends UI {
 		}
 	}
 
-	public Account getLoginAccount() {
-		return loginAccount;
-	}
-
-	public void setLoginAccount(Account loginAccount) {
-		this.loginAccount = loginAccount;
-	}
-
-	
 }

@@ -17,12 +17,12 @@ import com.vaadin.ui.UI;
 
 
 
-public class Messages {
+public class I18nManager {
 
     private final ResourceBundle messages;
     private final Locale locale;
 
-    public Messages(Locale locale) {
+    public I18nManager(Locale locale) {
         this.locale = Objects.requireNonNull(locale);
         messages = ResourceBundle.getBundle("messages", locale, new UnicodeResourceBundleControl());
     }
@@ -41,16 +41,16 @@ public class Messages {
         }
     }
 
-    private static final ConcurrentHashMap<Locale, Messages> MESSAGES_MAP = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Locale, I18nManager> MESSAGES_MAP = new ConcurrentHashMap<>();
 
-    public static Messages getInstance(Locale locale) {
+    public static I18nManager getInstance(Locale locale) {
         if (!MESSAGES_MAP.containsKey(locale)) {
-            MESSAGES_MAP.putIfAbsent(locale, new Messages(locale));
+            MESSAGES_MAP.putIfAbsent(locale, new I18nManager(locale));
         }
         return MESSAGES_MAP.get(locale);
     }
 
-    public static Messages getInstance() {
+    public static I18nManager getInstance() {
         UI current = UI.getCurrent();
         if (current == null) {
             throw new IllegalStateException("No UI bound to current thread");
