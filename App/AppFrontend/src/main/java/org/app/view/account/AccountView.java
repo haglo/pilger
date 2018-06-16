@@ -9,9 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.app.controler.AccountService;
-import org.app.controler.TitleService;
 import org.app.model.entity.Account;
-import org.app.model.entity.Title;
 import org.app.model.entity.enums.AccountGroup;
 import org.app.view.MainUI;
 import org.app.view.TopMainMenu;

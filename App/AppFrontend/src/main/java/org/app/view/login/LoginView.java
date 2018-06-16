@@ -1,16 +1,20 @@
 package org.app.view.login;
 
+import java.util.Locale;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.app.controler.AccountService;
 import org.app.controler.AuthService;
+import org.app.controler.SettingsService;
 import org.app.model.entity.Account;
 import org.app.view.LanguageSelector;
 import org.app.view.MainUI;
 import org.app.view.I18nManager;
 import org.app.view.Translatable;
 
+import com.vaadin.cdi.CDIView;
 import com.vaadin.cdi.UIScoped;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.Button;
@@ -28,6 +32,13 @@ public class LoginView extends VerticalLayout implements View, Translatable {
 
 	@Inject
 	private AuthService authService;
+	
+	@Inject
+	private SettingsService settingsService;
+	
+//	@Inject
+//	private LanguageSelector languageSelector;
+
 
 	private Label welcomeMessage;
 	private TextField username;
@@ -45,20 +56,31 @@ public class LoginView extends VerticalLayout implements View, Translatable {
 		password = new PasswordField("Password");
 		rememberMe = new CheckBox();
 		rememberMe.setCaption("remember Me");
-		languageSelector = new LanguageSelector();
-		languageSelector.setCaption("Language");
+//		languageSelector = new LanguageSelector();
+//		languageSelector.setCaption("Language");
+		
 
 		// password.addStyleName("v-password-textfield");
 
+//		loginButton = new Button("Login", e -> {
+//			if (authService.validateAccount(username.getValue(), password.getValue(), rememberMe.getValue())) {
+//				((MainUI) UI.getCurrent()).setTheme(settingsService.getMyTheme());;
+//				((MainUI) UI.getCurrent()).loginSuccessful();
+//				((MainUI) UI.getCurrent()).setLocale(languageSelector.getValue());
+//			} else {
+//				Notification.show(authService.getMessageForAuthentication());
+//			}
+//		});
 		loginButton = new Button("Login", e -> {
 			if (authService.validateAccount(username.getValue(), password.getValue(), rememberMe.getValue())) {
 				((MainUI) UI.getCurrent()).loginSuccessful();
+				((MainUI) UI.getCurrent()).setTheme(settingsService.getMyTheme());;
 				((MainUI) UI.getCurrent()).setLocale(languageSelector.getValue());
 			} else {
 				Notification.show(authService.getMessageForAuthentication());
 			}
 		});
-
+		
 		// loginButton = new Button("Login", e -> {
 		// if (validate(username.getValue(), password.getValue())) {
 		// ((MainUI)
@@ -79,14 +101,24 @@ public class LoginView extends VerticalLayout implements View, Translatable {
 
 	@PostConstruct
 	void init() {
-		loginButton = new Button("Login", e -> {
-			if (authService.validateAccount(username.getValue(), password.getValue(), rememberMe.getValue())) {
-				((MainUI) UI.getCurrent()).loginSuccessful();
-				((MainUI) UI.getCurrent()).setLocale(languageSelector.getValue());
-			} else {
-				Notification.show(authService.getMessageForAuthentication());
-			}
-		});
+//		loginButton = new Button("Login", e -> {
+//			if (authService.validateAccount(username.getValue(), password.getValue(), rememberMe.getValue())) {
+//				((MainUI) UI.getCurrent()).setTheme(settingsService.getMyTheme());;
+//				((MainUI) UI.getCurrent()).setLocale(languageSelector.getValue());
+//				((MainUI) UI.getCurrent()).loginSuccessful();
+//			} else {
+//				Notification.show(authService.getMessageForAuthentication());
+//			}
+//		});
+		
+
+		Locale li = settingsService.getMyLocale();
+//		Locale il = ((MainUI) UI.getCurrent()).getInitialLocale();
+//		languageSelector.setValue(settings.getDefaultLanguage());
+		languageSelector = new LanguageSelector(li);
+//		languageSelector.setValue(Locale.ENGLISH);
+//		languageSelector.setValue(settings.getDefaultLanguage());
+//		languageSelector.setValue(((MainUI) UI.getCurrent()).getInitialLocale().getLanguage());
 		
 		addStyleName("v-login-view");
 		addComponent(welcomeMessage);

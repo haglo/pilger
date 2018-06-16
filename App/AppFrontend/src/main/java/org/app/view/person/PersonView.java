@@ -55,8 +55,6 @@ public class PersonView extends VerticalLayout implements View, Translatable {
 	private TextField txfFirstName = new TextField();
 	private TextField txfLastName = new TextField();
 	private TextField txfComment = new TextField();
-	private Label welcomeMessageLabel = new Label();
-	private Label langMesssageLabel = new Label();
 	private Grid<Person> personGrid = new Grid<Person>();
 
 	public PersonView() {
@@ -78,8 +76,6 @@ public class PersonView extends VerticalLayout implements View, Translatable {
 			selectedPersons = event.getAllSelectedItems();
 			person = new Person();
 			person = getTheSelectedPerson(selectedPersons);
-
-			// person = personDAO.findByID(1);
 			if (person != null) {
 				showAddresses(personService.getPersonDAO(), person);
 			}
@@ -109,10 +105,9 @@ public class PersonView extends VerticalLayout implements View, Translatable {
 
 		HorizontalLayout tb = new HorizontalLayout(add, delete);
 
-		addComponent(langMesssageLabel);
-		addComponent(welcomeMessageLabel);
 		addComponent(personGrid);
 		addComponent(tb);
+		updateMessageStrings();	
 	}
 
 	private void showAddresses(PersonDAO personDAO, Person selectedPerson) {
@@ -189,17 +184,9 @@ public class PersonView extends VerticalLayout implements View, Translatable {
 	@Override
 	public void updateMessageStrings() {
 		final I18nManager i18n = I18nManager.getInstance();
-		welcomeMessageLabel.setCaption(i18n.getMessage("person.welcomemessage"));
-		langMesssageLabel.setCaption(
-				i18n.getMessage("person.language", getLoc().getCountry(), getLoc().getLanguage(), getLoc().toString()));
 		personGrid.getColumn(firstName).setCaption(i18n.getMessage("person.surname"));
 		personGrid.getColumn(lastName).setCaption(i18n.getMessage("person.lastname"));
 		personGrid.getColumn(comment).setCaption(i18n.getMessage("basic.comment"));
-
-	}
-
-	public Locale getLoc() {
-		return ((MainUI) UI.getCurrent()).getLocale();
 
 	}
 

@@ -16,13 +16,15 @@ public class TopMainMenu extends CustomComponent {
 		masterDetailViewButton.setIcon(VaadinIcons.NEWSPAPER);
 		accountViewButton.setIcon(VaadinIcons.USER);
 		helpViewButton.setIcon(VaadinIcons.QUESTION);
+		settingsViewButton.setIcon(VaadinIcons.COGS);
 		
 		layout.addComponent(personViewButton);
 		layout.addComponent(masterDetailViewButton);
 		layout.addComponent(accountViewButton);
+		layout.addComponent(settingsViewButton);
 		layout.addComponent(helpViewButton);
-		
 		layout.addComponent(logoutButton());
+
 		layout.setSizeUndefined();
 		layout.setSpacing(true);
 		setSizeUndefined();
@@ -43,6 +45,8 @@ public class TopMainMenu extends CustomComponent {
 	Button helpViewButton = new Button("",
 			e -> UI.getCurrent().getNavigator().navigateTo(MainUI.HELP_VIEW));
 		
+	Button settingsViewButton = new Button("",
+			e -> UI.getCurrent().getNavigator().navigateTo(MainUI.SETTINGS_VIEW));
 
 	private Button logoutButton() {
 		Button button = new Button("", new Button.ClickListener() {

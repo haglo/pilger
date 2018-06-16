@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.app.controler.SessionService;
 import org.app.model.entity.Account;
 import org.app.view.login.LoginView;
+
 import com.vaadin.annotations.Theme;
 import com.vaadin.cdi.CDIUI;
 import com.vaadin.cdi.CDIViewProvider;
@@ -39,6 +40,9 @@ public class MainUI extends UI {
 	public static final String ACCOUNT_VIEW = "Account";
 	public static final String HELP_VIEW = "Help";
 	public static final String TITLE_VIEW = "Title";
+	public static final String SETTINGS_VIEW = "Settings";
+	
+//	private Locale initialLocale;
 
 	@Override
 	protected void init(VaadinRequest request) {
@@ -70,7 +74,6 @@ public class MainUI extends UI {
 
 		navigator = new Navigator(this, contentView);
 		navigator.addProvider(viewProvider);
-
 		navigator.setErrorView(loginView);
 
 		String initialState = Optional.ofNullable(navigator.getState()).filter(state -> !state.trim().isEmpty())
@@ -83,12 +86,23 @@ public class MainUI extends UI {
 		super.setLocale(locale);
 		updateMessageStrings(getContent());
 	}
+	
+	public void setTheme(String theme) {
+		super.setTheme(theme);
+	}
 
 	@Override
 	public Locale getLocale() {
 		return super.getLocale();
 	}
 	
+	
+//	public Locale getInitialLocale() {
+////		initialLocale = settingsService.getMyLocale();
+////		return initialLocale;
+//		return Locale.ENGLISH;
+//	}
+
 	private void updateMessageStrings(Component component) {
 		if (component instanceof Translatable) {
 			((Translatable) component).updateMessageStrings();
