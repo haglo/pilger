@@ -5,9 +5,8 @@ import javax.inject.Inject;
 
 import org.app.controler.AccountService;
 import org.app.controler.TitleService;
-import org.app.view.MainUI;
+import org.app.helper.Constants;
 import org.app.view.TopMainMenu;
-
 import org.app.view.masterdetail.views.TitleView;
 
 import com.vaadin.cdi.CDIView;
@@ -21,7 +20,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
-@CDIView(MainUI.MASTER_DETAIL_VIEW)
+@CDIView(Constants.MASTER_DETAIL_VIEW)
 public class MasterDetailView extends VerticalLayout implements View {
 
 	@Inject
@@ -50,25 +49,21 @@ public class MasterDetailView extends VerticalLayout implements View {
 	void init() {
 		allView = new HorizontalLayout();
 		masterDetailLeftNavBar = new VerticalLayout();
-		masterDetailLeftNavBar.addStyleName(ValoTheme.MENU_ROOT);
+//		masterDetailLeftNavBar.addStyleName(ValoTheme.MENU_ROOT);
 		masterDetailContent = new CssLayout();
 
-		Label cLabel = new Label("MasterDetailContent");
-		Label head = new Label("MasterDetailLeftNavi");
-		head.addStyleName(ValoTheme.MENU_TITLE);
-		head.addStyleName("menu");
+		Label head = new Label("Master Detail");
+//		head.addStyleName(ValoTheme.MENU_ROOT);
 
 		masterDetailLeftNavBar.addComponent(head);
 		masterDetailLeftNavBar.addComponent(showTitleView());
 		// masterDetailLeftNavBar.addComponent(showLandView());
 
-		masterDetailContent.addComponent(cLabel);
-
 		allView.addComponent(masterDetailLeftNavBar);
 		allView.addComponent(masterDetailContent);
 		allView.setSizeFull();
 
-		addStyleName("v-left-master-detail-navigation-bar");
+		addStyleName("navigation-bar");
 		addComponent(allView);
 
 	}

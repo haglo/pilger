@@ -1,6 +1,7 @@
 package org.app.view.account;
 
 import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,8 +10,10 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.app.controler.AccountService;
+import org.app.helper.Constants;
 import org.app.model.entity.Account;
 import org.app.model.entity.enums.AccountGroup;
+import org.app.model.entity.enums.DefaultTheme;
 import org.app.view.MainUI;
 import org.app.view.TopMainMenu;
 
@@ -32,7 +35,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 @SuppressWarnings("serial")
-@CDIView(MainUI.ACCOUNT_VIEW)
+@CDIView(Constants.ACCOUNT_VIEW)
 public class AccountView extends VerticalLayout implements View {
 
 	@Inject
@@ -182,7 +185,7 @@ public class AccountView extends VerticalLayout implements View {
 			subContent.addComponent(txfPassword);
 
 			ComboBox<AccountGroup> cbxGroup = new ComboBox<AccountGroup>("Gruppe");
-			cbxGroup.setItems(AccountGroup.System, AccountGroup.PowerUser, AccountGroup.Administrators, AccountGroup.Users);
+			cbxGroup.setItems(EnumSet.allOf(AccountGroup.class));
 			cbxGroup.setValue(selectedEntry.getAccountGroup());
 			subContent.addComponent(cbxGroup);
 

@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 import org.app.controler.SessionService;
+import org.app.helper.Constants;
+import org.app.helper.Translatable;
 import org.app.model.entity.Account;
 import org.app.view.login.LoginView;
 
@@ -14,6 +16,7 @@ import com.vaadin.cdi.CDIUI;
 import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HasComponents;
@@ -21,7 +24,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
-@Theme("appui")
+@Theme("default")
 @CDIUI("")
 public class MainUI extends UI {
 	@Inject
@@ -34,16 +37,7 @@ public class MainUI extends UI {
 	SessionService sessionService;
 
 	private Navigator navigator;
-
-	public static final String PERSON_VIEW = "Person";
-	public static final String MASTER_DETAIL_VIEW = "MasterDetail";
-	public static final String ACCOUNT_VIEW = "Account";
-	public static final String HELP_VIEW = "Help";
-	public static final String TITLE_VIEW = "Title";
-	public static final String SETTINGS_VIEW = "Settings";
 	
-//	private Locale initialLocale;
-
 	@Override
 	protected void init(VaadinRequest request) {
 		if (isLoggedIn()) {
@@ -70,6 +64,11 @@ public class MainUI extends UI {
 		mainLayout.addComponent(contentView);
 		mainLayout.setMargin(true);
 		mainLayout.setSpacing(true);
+
+		mainLayout.setComponentAlignment(menuView, Alignment.MIDDLE_CENTER);
+		mainLayout.setComponentAlignment(contentView, Alignment.MIDDLE_CENTER);
+		mainLayout.setWidth("80%");
+
 		setContent(mainLayout);
 
 		navigator = new Navigator(this, contentView);
@@ -77,7 +76,7 @@ public class MainUI extends UI {
 		navigator.setErrorView(loginView);
 
 		String initialState = Optional.ofNullable(navigator.getState()).filter(state -> !state.trim().isEmpty())
-				.orElse(PERSON_VIEW);
+				.orElse(Constants.PERSON_VIEW);
 		navigator.navigateTo(initialState);
 	}
 
@@ -96,13 +95,6 @@ public class MainUI extends UI {
 		return super.getLocale();
 	}
 	
-	
-//	public Locale getInitialLocale() {
-////		initialLocale = settingsService.getMyLocale();
-////		return initialLocale;
-//		return Locale.ENGLISH;
-//	}
-
 	private void updateMessageStrings(Component component) {
 		if (component instanceof Translatable) {
 			((Translatable) component).updateMessageStrings();

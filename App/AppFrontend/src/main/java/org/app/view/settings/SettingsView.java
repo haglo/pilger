@@ -1,5 +1,6 @@
 package org.app.view.settings;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +10,9 @@ import javax.inject.Inject;
 
 import org.app.controler.SessionService;
 import org.app.controler.SettingsService;
+import org.app.helper.Constants;
+import org.app.helper.I18nManager;
+import org.app.helper.Translatable;
 import org.app.model.entity.Settings;
 import org.app.model.entity.enums.DefaultLanguage;
 import org.app.model.entity.enums.DefaultTheme;
@@ -24,8 +28,8 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings({ "serial", "unused" })
-@CDIView(MainUI.SETTINGS_VIEW)
-public class SettingsView extends VerticalLayout implements View {
+@CDIView(Constants.SETTINGS_VIEW)
+public class SettingsView extends VerticalLayout implements View, Translatable {
 
 	@Inject
 	SessionService sessionService;
@@ -35,6 +39,10 @@ public class SettingsView extends VerticalLayout implements View {
 
 	private Settings mySettings;
 	private Set<Settings> settings;
+	private Button saveButton;
+	private ComboBox<DefaultLanguage> cbxLanguage;
+	private ComboBox<DefaultTheme> cbxTheme;
+	private CheckBox ckbEdit;
 
 
 	public SettingsView() {
@@ -46,7 +54,7 @@ public class SettingsView extends VerticalLayout implements View {
 
 	@PostConstruct
 	void init() {
-		final Button saveButton = new Button("Save");
+		saveButton = new Button("Save");
 		mySettings = new Settings();
 		settings = new HashSet<>();
 		List<Settings> settings = settingsService.getSettingsDAO().findAll();
@@ -55,17 +63,16 @@ public class SettingsView extends VerticalLayout implements View {
 			mySettings = entry;
 		}
 
-		ComboBox<DefaultLanguage> cbxLanguage = new ComboBox<DefaultLanguage>("Language");
-		cbxLanguage.setItems(DefaultLanguage.english, DefaultLanguage.german, DefaultLanguage.spanish,
-				DefaultLanguage.french);
+		cbxLanguage = new ComboBox<DefaultLanguage>("Language");
+		cbxLanguage.setItems(EnumSet.allOf(DefaultLanguage.class));
 		cbxLanguage.setValue(mySettings.getDefaultLanguage());
 		addComponent(cbxLanguage);
 
-		ComboBox<DefaultTheme> cbxTheme = new ComboBox<DefaultTheme>("Language");
-		cbxTheme.setItems(DefaultTheme.Standard, DefaultTheme.Facebook, DefaultTheme.Medju, DefaultTheme.Jugend200);
+		cbxTheme = new ComboBox<DefaultTheme>("Theme");
+		cbxTheme.setItems(EnumSet.allOf(DefaultTheme.class));
 		cbxTheme.setValue(mySettings.getDefaultTheme());
 
-		CheckBox ckbEdit = new CheckBox("Edit");
+		ckbEdit = new CheckBox("Edit");
 		ckbEdit.addValueChangeListener(event -> {
 			settingsService.toggleEditing();
 			if (event.getValue()) {
@@ -87,6 +94,15 @@ public class SettingsView extends VerticalLayout implements View {
 		addComponent(cbxLanguage);
 		addComponent(ckbEdit);
 		addComponent(saveButton);
+		updateMessageStrings();
 	}
 
+	@Override
+	public void updateMessageStrings() {
+		final I18nManager i18n = I18nManager.getInstance();
+		saveButton.setCaption(i18n.getMessage("basic.save"));
+		cbxLanguage.setCaption(i18n.getMessage("settings.language"));
+		cbxTheme.setCaption(i18n.getMessage("settings.theme"));
+		ckbEdit.setCaption(i18n.getMessage("basic.edit"));
+	}
 }

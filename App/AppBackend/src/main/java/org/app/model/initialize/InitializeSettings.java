@@ -24,7 +24,7 @@ public class InitializeSettings {
 			Settings settings = new Settings();
 
 			settings.setDefaultLanguage(DefaultLanguage.english);
-			settings.setDefaultTheme(DefaultTheme.Standard);
+			settings.setDefaultTheme(DefaultTheme.Default);
 			settingsDAO.update(settings);
 		}
 	}

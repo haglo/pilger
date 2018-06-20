@@ -33,6 +33,8 @@ public class Address implements Serializable {
 	private Integer id;
 
 	private String street;
+	
+	private String postbox;
 
 	private String zip;
 
@@ -59,6 +61,14 @@ public class Address implements Serializable {
 
 	public void setStreet(String street) {
 		this.street = street;
+	}
+
+	public String getPostbox() {
+		return postbox;
+	}
+
+	public void setPostbox(String postbox) {
+		this.postbox = postbox;
 	}
 
 	public String getCity() {

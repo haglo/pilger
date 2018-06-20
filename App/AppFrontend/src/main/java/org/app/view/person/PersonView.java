@@ -3,50 +3,41 @@ package org.app.view.person;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.ejb.PostActivate;
 import javax.inject.Inject;
 
-import org.app.view.MainUI;
-import org.app.view.I18nManager;
-import org.app.view.TopMainMenu;
-import org.app.view.Translatable;
 import org.app.controler.PersonService;
+import org.app.helper.Constants;
+import org.app.helper.I18nManager;
+import org.app.helper.Translatable;
 import org.app.model.dao.PersonDAO;
 import org.app.model.entity.Person;
+import org.app.view.TopMainMenu;
 
 import com.vaadin.cdi.CDIView;
 import com.vaadin.cdi.UIScoped;
-import com.vaadin.cdi.ViewScoped;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
-@CDIView(MainUI.PERSON_VIEW)
+@CDIView(Constants.PERSON_VIEW)
 @UIScoped
 public class PersonView extends VerticalLayout implements View, Translatable {
 
 	@Inject
 	PersonService personService;
-
-	final private String firstName = "Vorname";
-	final private String lastName = "Nachname";
-	final private String comment = "Kommentar";
-
+	
+	
+	private Constants c;
 	private AddressView addressView;
 	private Person person;
 	private Person selectedPerson;
@@ -90,12 +81,12 @@ public class PersonView extends VerticalLayout implements View, Translatable {
 
 		personGrid.setDataProvider(dataProvider);
 
-		personGrid.addColumn(Person::getFirstName).setCaption(firstName)
-				.setEditorComponent(txfFirstName, Person::setFirstName).setId(firstName);
-		personGrid.addColumn(Person::getLastName).setCaption(lastName)
-				.setEditorComponent(txfLastName, Person::setLastName).setId(lastName);
-		personGrid.addColumn(Person::getComment).setCaption(comment).setEditorComponent(txfComment, Person::setComment)
-				.setId(comment);
+		personGrid.addColumn(Person::getFirstName).setCaption(FIRST_NAME)
+				.setEditorComponent(txfFirstName, Person::setFirstName).setId(FIRST_NAME);
+		personGrid.addColumn(Person::getLastName).setCaption(LAST_NAME)
+				.setEditorComponent(txfLastName, Person::setLastName).setId(LAST_NAME);
+		personGrid.addColumn(Person::getComment).setCaption(COMMENT).setEditorComponent(txfComment, Person::setComment)
+				.setId(COMMENT);
 
 		Button add = new Button("+");
 		add.addClickListener(event -> addRow(personService, personGrid));
@@ -107,7 +98,7 @@ public class PersonView extends VerticalLayout implements View, Translatable {
 
 		addComponent(personGrid);
 		addComponent(tb);
-		updateMessageStrings();	
+		updateMessageStrings();
 	}
 
 	private void showAddresses(PersonDAO personDAO, Person selectedPerson) {
@@ -127,11 +118,11 @@ public class PersonView extends VerticalLayout implements View, Translatable {
 	private Person getTheSelectedPerson(Set<Person> selectedPersons) {
 		selectedPerson = new Person();
 		if (selectedPersons.size() > 1) {
-			Notification.show("Only one Item can be selected");
+			Notification.show(c.NOTIFICATION_ONLYONE_ITEM);
 			return null;
 		}
 		if (selectedPersons.size() < 1) {
-			Notification.show("One Item must be selected");
+			Notification.show(c.NOTIFICATION_ONE_ITEM);
 			return null;
 		}
 		if (selectedPersons.size() == 1) {
@@ -162,7 +153,7 @@ public class PersonView extends VerticalLayout implements View, Translatable {
 
 	private void deleteRow(PersonService personService, Set<Person> selectedPersons, Grid<Person> personGrid) {
 		if (selectedPersons.size() == 0) {
-			Notification.show("Nothing selected");
+			Notification.show(c.NOTIFICATION_NO_ITEM);
 			return;
 		}
 		for (Person person : selectedPersons) {
@@ -184,10 +175,14 @@ public class PersonView extends VerticalLayout implements View, Translatable {
 	@Override
 	public void updateMessageStrings() {
 		final I18nManager i18n = I18nManager.getInstance();
-		personGrid.getColumn(firstName).setCaption(i18n.getMessage("person.surname"));
-		personGrid.getColumn(lastName).setCaption(i18n.getMessage("person.lastname"));
-		personGrid.getColumn(comment).setCaption(i18n.getMessage("basic.comment"));
+		c = new Constants();
+		personGrid.getColumn(FIRST_NAME).setCaption(i18n.getMessage("person.surname"));
+		personGrid.getColumn(LAST_NAME).setCaption(i18n.getMessage("person.lastname"));
+		personGrid.getColumn(COMMENT).setCaption(i18n.getMessage("basic.comment"));
+
+		c.NOTIFICATION_NO_ITEM = i18n.getMessage("notification.noItem");
+		c.NOTIFICATION_ONE_ITEM = i18n.getMessage("notification.oneItem");
+		c.NOTIFICATION_ONLYONE_ITEM = i18n.getMessage("notification.onlyOneItem");
 
 	}
-
 }

@@ -69,12 +69,26 @@ public class SettingsService {
 		switch (mySettings.getDefaultTheme()) {
 		case Standard:
 			return "appui";
-		case Facebook:
-			return "apptheme";
+		case Default:
+			return "default";
+		case Medjugorje:
+			return "blueprint";
+		case Jugend2000:
+			return "facebook";
+		case Dark:
+			return "dark";
+		case Flat:
+			return "flat";
+		case FlatDark:
+			return "flatdark";
+		case Light:
+			return "light";
+		case Metro:
+			return "metro";
 		default:
 			return "appui";
 		}
 	}
 
-
+	
 }

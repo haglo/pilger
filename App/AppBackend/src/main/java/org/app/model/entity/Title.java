@@ -46,7 +46,7 @@ public class Title implements Serializable {
 	/**
 	 * Einbinden: Entity Account über ComboBox
 	 */
-	@ManyToOne()
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "MODIFYBY_ID")
 	private Account modifyBy;
 
