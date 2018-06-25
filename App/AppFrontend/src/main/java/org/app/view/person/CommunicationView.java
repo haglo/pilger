@@ -21,16 +21,15 @@ import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
-public class AddressView extends VerticalLayout implements View {
+public class CommunicationView extends VerticalLayout implements View {
 
 	private I18n i18n;
 	private Grid<Address> grid;
 	private ListDataProvider<Address> addressDataProvider;
 	private List<Address> addressList;
 
-	public AddressView(PersonDAO personDAO, Person selectedPerson) {
-		//top - right - bottom - left
-		setMargin(new MarginInfo(false, true, false, false));
+	public CommunicationView(PersonDAO personDAO, Person selectedPerson) {
+		setMargin(new MarginInfo(false, false, false, true));
 		setStyleName("pilger-address-view");
 		//setWidth("45%");
 		setSizeFull();

@@ -13,12 +13,17 @@
       		background-color:	#ffec8b;
    		}
    	
-   		div {
-   			
+   		> div.v-slot {
+   			position: relative;
+   			top: 20%;
+
+	   		div.v-slot {
+	   			text-align: center;
+	   		}
    		}
    	}
 
-	.pilger-grid {
+	.pilger-person-grid {
       	.v-button {
         	border-radius: 0;
         	font-size: 24px;
@@ -50,4 +55,49 @@
         font-size: $v-font-size;
       }
     }
+   
+	.point5, .pilger-top-nav-bar {
+		text-align: center;
+		width: 100%;
+	}
+	
+	.point6 {
+		text-align: center;
+		width: 100%;
+		
+		> div {
+			text-align: center;
+			width: 100%;
+			/*padding-top: 0px;*/
+		}
+	}
+
+	/*.point7 > div.v-slot > div.v-grid {
+		width: 1000px !important;
+		
+		> div.v-grid-scroller-horizontal {
+			width: 943px !important;
+		}
+	
+		> div.v-grid-tablewrapper {
+			width: 1000px !important;
+		}
+	}*/
+
+/*	.pilger-person-person-content, .pilger-person-main {
+		padding: 0px;
+	}*/
+	.pilger-person-address-communication-content.visible {
+		border-top: LightGray solid 2px;
+		padding-top: 5px;
+	}
+
+	.point8 {
+		border-right: LightGray solid 2px;
+		min-height: 500px;
+	}
+
+	.point10 {
+		padding-top: 37px;
+	}
  }

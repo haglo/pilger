@@ -39,7 +39,8 @@ public class Title implements Serializable {
 	/**
 	 * Einbinden: Entity Account über ComboBox
 	 */
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
+//	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "CREATEBY_ID")
 	private Account createBy;
 

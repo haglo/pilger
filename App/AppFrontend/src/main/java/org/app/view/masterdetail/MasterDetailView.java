@@ -11,6 +11,7 @@ import org.app.view.masterdetail.views.TitleView;
 
 import com.vaadin.cdi.CDIView;
 import com.vaadin.navigator.View;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
@@ -32,7 +33,7 @@ public class MasterDetailView extends VerticalLayout implements View {
 	// @Inject
 	// LandService landService;
 
-	private HorizontalLayout allView;
+	private HorizontalLayout mainView;
 	private VerticalLayout masterDetailLeftNavBar;
 	private CssLayout masterDetailContent;
 
@@ -41,30 +42,51 @@ public class MasterDetailView extends VerticalLayout implements View {
 
 	public MasterDetailView() {
 		setSizeFull();
-		setSpacing(true);
-		addComponent(new TopMainMenu());
+
+//		setSpacing(true);
+//		setMargin(new MarginInfo(false, true, true, true));
+
+		/**
+		 * obige Padding händisch gesetzt
+		 */
+		setStyleName("point10");
+		setMargin(new MarginInfo(true, true, true, true));
+
+		
+		setWidth("1000px");
 	}
 
 	@PostConstruct
 	void init() {
-		allView = new HorizontalLayout();
+		mainView = new HorizontalLayout();
 		masterDetailLeftNavBar = new VerticalLayout();
+		//masterDetailLeftNavBar.setWidth("15%");
 //		masterDetailLeftNavBar.addStyleName(ValoTheme.MENU_ROOT);
+		masterDetailLeftNavBar.addStyleName("point8");
 		masterDetailContent = new CssLayout();
+		masterDetailContent.addStyleName("point9");
+		//masterDetailContent.setWidth("85%");
+		masterDetailContent.setSizeFull();
 
+		masterDetailLeftNavBar.setMargin(false);
+		
 		Label head = new Label("Master Detail");
 //		head.addStyleName(ValoTheme.MENU_ROOT);
 
 		masterDetailLeftNavBar.addComponent(head);
+	
 		masterDetailLeftNavBar.addComponent(showTitleView());
 		// masterDetailLeftNavBar.addComponent(showLandView());
 
-		allView.addComponent(masterDetailLeftNavBar);
-		allView.addComponent(masterDetailContent);
-		allView.setSizeFull();
+		mainView.addComponent(masterDetailLeftNavBar);
+		mainView.addComponent(masterDetailContent);
+		mainView.setSizeFull();
 
+		mainView.setExpandRatio(masterDetailLeftNavBar, 0.2f);
+		mainView.setExpandRatio(masterDetailContent, 0.8f);
+		
 		addStyleName("navigation-bar");
-		addComponent(allView);
+		addComponent(mainView);
 
 	}
 

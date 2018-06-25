@@ -10,17 +10,13 @@ import javax.inject.Inject;
 
 import org.app.controler.SessionService;
 import org.app.controler.SettingsService;
-import org.app.helper.Constants;
-import org.app.helper.I18nManager;
-import org.app.helper.Translatable;
+import org.app.helper.I18n;
 import org.app.model.entity.Settings;
 import org.app.model.entity.enums.DefaultLanguage;
 import org.app.model.entity.enums.DefaultTheme;
-import org.app.view.MainUI;
 import org.app.view.TopMainMenu;
 
 import com.vaadin.cdi.CDIView;
-import com.vaadin.cdi.UIScoped;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -28,15 +24,16 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings({ "serial", "unused" })
-@CDIView(Constants.SETTINGS_VIEW)
-public class SettingsView extends VerticalLayout implements View, Translatable {
+@CDIView(I18n.SETTINGS_VIEW)
+public class SettingsView extends VerticalLayout implements View {
 
 	@Inject
 	SessionService sessionService;
 
 	@Inject
 	SettingsService settingsService;
-
+	
+	private I18n i18n;
 	private Settings mySettings;
 	private Set<Settings> settings;
 	private Button saveButton;
@@ -48,13 +45,12 @@ public class SettingsView extends VerticalLayout implements View, Translatable {
 	public SettingsView() {
 		setSizeFull();
 		setSpacing(true);
-
-		addComponent(new TopMainMenu());
+		i18n = new I18n();
 	}
 
 	@PostConstruct
 	void init() {
-		saveButton = new Button("Save");
+		saveButton = new Button(i18n.BASIC_SAVE);
 		mySettings = new Settings();
 		settings = new HashSet<>();
 		List<Settings> settings = settingsService.getSettingsDAO().findAll();
@@ -63,16 +59,16 @@ public class SettingsView extends VerticalLayout implements View, Translatable {
 			mySettings = entry;
 		}
 
-		cbxLanguage = new ComboBox<DefaultLanguage>("Language");
+		cbxLanguage = new ComboBox<DefaultLanguage>(i18n.SETTINGS_LANGUAGE);
 		cbxLanguage.setItems(EnumSet.allOf(DefaultLanguage.class));
 		cbxLanguage.setValue(mySettings.getDefaultLanguage());
 		addComponent(cbxLanguage);
 
-		cbxTheme = new ComboBox<DefaultTheme>("Theme");
+		cbxTheme = new ComboBox<DefaultTheme>(i18n.SETTINGS_THEME);
 		cbxTheme.setItems(EnumSet.allOf(DefaultTheme.class));
 		cbxTheme.setValue(mySettings.getDefaultTheme());
 
-		ckbEdit = new CheckBox("Edit");
+		ckbEdit = new CheckBox(i18n.BASIC_EDIT);
 		ckbEdit.addValueChangeListener(event -> {
 			settingsService.toggleEditing();
 			if (event.getValue()) {
@@ -94,15 +90,6 @@ public class SettingsView extends VerticalLayout implements View, Translatable {
 		addComponent(cbxLanguage);
 		addComponent(ckbEdit);
 		addComponent(saveButton);
-		updateMessageStrings();
 	}
 
-	@Override
-	public void updateMessageStrings() {
-		final I18nManager i18n = I18nManager.getInstance();
-		saveButton.setCaption(i18n.getMessage("basic.save"));
-		cbxLanguage.setCaption(i18n.getMessage("settings.language"));
-		cbxTheme.setCaption(i18n.getMessage("settings.theme"));
-		ckbEdit.setCaption(i18n.getMessage("basic.edit"));
-	}
 }

@@ -13,6 +13,8 @@ public final class Constants {
 	public String NOTIFICATION_NO_ITEM = "Nothing selected";
 	public String NOTIFICATION_ONE_ITEM = "One Item must be selected";
 	public String NOTIFICATION_ONLYONE_ITEM = "Only one Item can be selected";
+	public String NOTIFICATION_ONTOP = "Item is on the Top";
+	public String NOTIFICATION_ONTBOTTOM = "Item is on the Bottom";
 
 	
 	public Constants() {}

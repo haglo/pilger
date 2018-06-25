@@ -1,12 +1,14 @@
-package org.app.view.masterdetail.views;
+package org.app.view.person;
 
 import java.util.Comparator;
 import java.util.List;
 
 import org.app.controler.AccountService;
+import org.app.controler.PersonService;
 import org.app.controler.TitleService;
 import org.app.helper.I18n;
 import org.app.model.entity.Account;
+import org.app.model.entity.Person;
 import org.app.model.entity.Title;
 
 import com.vaadin.ui.Button;
@@ -17,15 +19,15 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-public class TitleDetailView extends Window  {
+public class PersonDetailView extends Window  {
 
 	private static final long serialVersionUID = 1L;
 
 	private I18n i18n;
 	private Account createBy;
 	private Account modifyBy;
-	private TextField txfListPrio;
-	private TextField txfValue;
+	private TextField txfFirstname;
+	private TextField txfLastname;
 	private TextArea txaComment;
 	private CheckBox ckbEdit;
 	private Button saveButton;
@@ -34,14 +36,14 @@ public class TitleDetailView extends Window  {
 	private ComboBox<Account> cbxModifyBy;
 	private TextField txfModifyAt;
 	
-	private TitleService titleService;
+	private PersonService personService;
 	private AccountService accountService;
 
 	@SuppressWarnings("static-access")
-	public TitleDetailView(TitleView titleView, Title selectedTitle) {
+	public PersonDetailView(PersonView personView, Person selectedPerson) {
 		i18n = new I18n();
-		this.titleService = titleView.getTitleService();
-		this.accountService = titleView.getAccountService();
+		this.personService = personView.getPersonService();
+		this.accountService = personView.getAccountService();
 		saveButton = new Button(i18n.BASIC_SAVE);
 
 		this.setCaption(i18n.TITLE_WINDOW_DETAIL_CAPTION);
@@ -49,56 +51,58 @@ public class TitleDetailView extends Window  {
 		this.setContent(subContent);
 		this.center();
 
+		this.setStyleName("point1");
+		subContent.setStyleName("point2");
 
 		try {
 			List<Account> accountList = accountService.findAll();
-			titleService.setEditing(false);
+			personService.setEditing(false);
 
-			TextField txfID = new TextField("ID", "" + selectedTitle.getId());
+			TextField txfID = new TextField("ID", "" + selectedPerson.getId());
 			subContent.addComponent(txfID);
 
 			cbxCreateBy = new ComboBox<>(i18n.BASIC_CREATE_BY);
-			createBy = selectedTitle.getCreateBy();
+			createBy = selectedPerson.getCreateBy();
 			accountList.sort(Comparator.comparing(Account::getAccountGroup));
 			cbxCreateBy.setPageLength(8);
 			cbxCreateBy.setItemCaptionGenerator(Account::getUsername);
 			cbxCreateBy.setItems(accountList);
-			cbxCreateBy.setSelectedItem(selectedTitle.getCreateBy());
+			cbxCreateBy.setSelectedItem(selectedPerson.getCreateBy());
 			cbxCreateBy.addValueChangeListener(event -> {
 				this.createBy = event.getValue();
 			});
 			subContent.addComponent(cbxCreateBy);
 
-			txfCreateAt = new TextField(i18n.BASIC_CREATE_AT, "" + selectedTitle.getCreateAt());
+			txfCreateAt = new TextField(i18n.BASIC_CREATE_AT, "" + selectedPerson.getCreateAt());
 			subContent.addComponent(txfCreateAt);
 
 			cbxModifyBy = new ComboBox<>(i18n.BASIC_MODIFY_BY);
-			modifyBy = selectedTitle.getModifyBy();
+			modifyBy = selectedPerson.getModifyBy();
 			accountList.sort(Comparator.comparing(Account::getAccountGroup));
 			cbxModifyBy.setPageLength(8);
 			cbxModifyBy.setItemCaptionGenerator(Account::getUsername);
 			cbxModifyBy.setItems(accountList);
-			cbxModifyBy.setSelectedItem(selectedTitle.getModifyBy());
+			cbxModifyBy.setSelectedItem(selectedPerson.getModifyBy());
 			cbxModifyBy.addValueChangeListener(ev -> {
 				this.modifyBy = ev.getValue();
 			});
 			subContent.addComponent(cbxModifyBy);
 
-			txfModifyAt = new TextField(i18n.BASIC_MODIFY_AT, "" + selectedTitle.getModifyAt());
+			txfModifyAt = new TextField(i18n.BASIC_MODIFY_AT, "" + selectedPerson.getModifyAt());
 			subContent.addComponent(txfModifyAt);
 
-			txfListPrio = new TextField(i18n.BASIC_LIST_PRIO, "" + selectedTitle.getListPrio());
-			subContent.addComponent(txfListPrio);
+			txfFirstname = new TextField(i18n.PERSON_SURNAME, "" + selectedPerson.getFirstName());
+			subContent.addComponent(txfFirstname);
 
-			txfValue = new TextField(i18n.TITLE_VALUE, "" + selectedTitle.getTitleValue());
-			subContent.addComponent(txfValue);
+			txfLastname = new TextField(i18n.PERSON_LASTNAME, "" + selectedPerson.getLastName());
+			subContent.addComponent(txfLastname);
 
-			txaComment = new TextArea(i18n.BASIC_COMMENT, "" + selectedTitle.getComment());
+			txaComment = new TextArea(i18n.BASIC_COMMENT, "" + selectedPerson.getComment());
 			subContent.addComponent(txaComment);
 
 			ckbEdit = new CheckBox(i18n.BASIC_EDIT);
 			ckbEdit.addValueChangeListener(event -> {
-				titleService.toggleEditing();
+				personService.toggleEditing();
 				if (event.getValue()) {
 					saveButton.setEnabled(true);
 				} else {
@@ -108,17 +112,17 @@ public class TitleDetailView extends Window  {
 
 			subContent.addComponent(ckbEdit);
 
-			saveButton.setEnabled(titleService.getEditing());
+			saveButton.setEnabled(personService.getEditing());
 			subContent.addComponent(saveButton);
 
 			saveButton.addClickListener(event -> {
-				selectedTitle.setCreateBy(createBy);
-				selectedTitle.setModifyBy(modifyBy);
-				selectedTitle.setListPrio(Integer.valueOf(txfListPrio.getValue()));
-				selectedTitle.setTitleValue(txfValue.getValue());
-				selectedTitle.setComment(txaComment.getValue());
-				titleView.updateRow(selectedTitle);
-				titleView.refreshGrid();
+				selectedPerson.setCreateBy(createBy);
+				selectedPerson.setModifyBy(modifyBy);
+				selectedPerson.setFirstName(txfFirstname.getValue());
+				selectedPerson.setLastName(txfLastname.getValue());
+				selectedPerson.setComment(txaComment.getValue());
+				personView.updateRow(selectedPerson);
+				personView.refreshGrid();
 				getUI().getCurrent().removeWindow(this);
 			});
 

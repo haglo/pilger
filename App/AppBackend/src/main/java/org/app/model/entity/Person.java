@@ -1,6 +1,7 @@
 package org.app.model.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +11,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -25,10 +30,27 @@ public class Person implements Serializable {
 
 	public static final String QUERY_GET_ALL = "Person.GetAll";
 
+	private Timestamp createAT;
+	private Timestamp modifyAT;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	/**
+	 * Einbinden: Entity Account über ComboBox
+	 */
+	@ManyToOne()
+	@JoinColumn(name = "CREATEBY_ID")
+	private Account createBy;
+
+	/**
+	 * Einbinden: Entity Account über ComboBox
+	 */
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "MODIFYBY_ID")
+	private Account modifyBy;
+	
 	@NotNull
 	@Size(min = 0, max = 50)
 	private String firstName;
@@ -91,5 +113,38 @@ public class Person implements Serializable {
 		addresses.remove(address);
 		address.setPerson(null);
 	}
+	
+	@PrePersist
+	protected void onCreate() {
+		createAT = new Timestamp(System.currentTimeMillis());
+	}
 
+	@PreUpdate
+	protected void onUpdate() {
+		modifyAT = new Timestamp(System.currentTimeMillis());
+	}
+
+	public Timestamp getCreateAt() {
+		return createAT;
+	}
+
+	public Timestamp getModifyAt() {
+		return modifyAT;
+	}
+
+	public Account getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(Account createBy) {
+		this.createBy = createBy;
+	}
+
+	public Account getModifyBy() {
+		return modifyBy;
+	}
+
+	public void setModifyBy(Account modifyBy) {
+		this.modifyBy = modifyBy;
+	}
 }

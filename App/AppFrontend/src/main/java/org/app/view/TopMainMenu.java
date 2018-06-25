@@ -36,11 +36,11 @@ public class TopMainMenu extends CustomComponent implements Translatable {
 		layout.addComponent(helpViewButton);
 		layout.addComponent(logoutButton());
 
-		layout.setSizeUndefined();
-		layout.setSpacing(true);
-		setSizeUndefined();
+//		layout.setSizeUndefined();
+//		layout.setSpacing(true);
+//		setSizeUndefined();
 		setCompositionRoot(layout);
-//		addStyleName("v-top-navigation-bar");
+		addStyleName("pilger-top-nav-bar");
 		updateMessageStrings();
 	}
 	

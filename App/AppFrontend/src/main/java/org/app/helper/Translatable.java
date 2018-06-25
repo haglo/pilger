@@ -15,5 +15,9 @@ public interface Translatable {
 	public static final String ZIPCODE = "ZipCode";
 	public static final String CITY = "City";
 	public static final String COUNTRY = "Country";
+	public static final String USERNAME = "username";
+	public static final String PASSWORD = "password";
+	public static final String ACCOUNT_GROUP = "User Group";
+	public static final String EMAIL = "Email";
 	
 }

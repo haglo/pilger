@@ -6,7 +6,9 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 import org.app.controler.SessionService;
+import org.app.controler.SettingsService;
 import org.app.helper.Constants;
+import org.app.helper.I18n;
 import org.app.helper.Translatable;
 import org.app.model.entity.Account;
 import org.app.view.login.LoginView;
@@ -16,6 +18,7 @@ import com.vaadin.cdi.CDIUI;
 import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
@@ -34,10 +37,14 @@ public class MainUI extends UI {
 	LoginView loginView;
 	
 	@Inject
+	SettingsService settingsService;
+	
+	@Inject
 	SessionService sessionService;
 
+
 	private Navigator navigator;
-	
+
 	@Override
 	protected void init(VaadinRequest request) {
 		if (isLoggedIn()) {
@@ -60,14 +67,27 @@ public class MainUI extends UI {
 		final CssLayout menuView = new CssLayout();
 		final CssLayout contentView = new CssLayout();
 
+		
+		TopMainMenu topNavBar = new TopMainMenu();
+		menuView.addComponent(topNavBar);
+		
+		
 		mainLayout.addComponent(menuView);
 		mainLayout.addComponent(contentView);
-		mainLayout.setMargin(true);
-		mainLayout.setSpacing(true);
+		//mainLayout.setMargin(true);
+		//mainLayout.setSpacing(true);
 
-		mainLayout.setComponentAlignment(menuView, Alignment.MIDDLE_CENTER);
-		mainLayout.setComponentAlignment(contentView, Alignment.MIDDLE_CENTER);
-		mainLayout.setWidth("80%");
+		this.setStyleName("point3");
+		mainLayout.setStyleName("point4");
+		menuView.setStyleName("point5");
+		contentView.setStyleName("point6");
+		
+		//mainLayout.setSizeFull();
+		//mainLayout.setHeight("100%");
+		contentView.setSizeFull();
+		
+		//mainLayout.setComponentAlignment(menuView, Alignment.MIDDLE_CENTER);
+		//mainLayout.setComponentAlignment(contentView, Alignment.MIDDLE_CENTER);
 
 		setContent(mainLayout);
 
@@ -103,5 +123,5 @@ public class MainUI extends UI {
 			((HasComponents) component).iterator().forEachRemaining(this::updateMessageStrings);
 		}
 	}
-
+	
 }

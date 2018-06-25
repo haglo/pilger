@@ -1,3 +1,4 @@
+
 package org.app.controler;
 
 import java.util.List;
@@ -40,6 +41,7 @@ public class AccountService {
 	}
 
 	public void create(Account account) {
+		encryptService = new EncryptService();
 		account.setPassword(encryptService.encodePassword(account.getPassword()));
 		accountDAO.create(account);
 	}

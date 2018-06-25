@@ -6,9 +6,7 @@ import java.util.Set;
 
 import org.app.controler.AccountService;
 import org.app.controler.TitleService;
-import org.app.helper.Constants;
-import org.app.helper.I18nManager;
-import org.app.helper.Translatable;
+import org.app.helper.I18n;
 import org.app.model.entity.Account;
 import org.app.model.entity.Title;
 
@@ -18,6 +16,7 @@ import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.shared.data.sort.SortDirection;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
@@ -27,11 +26,12 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
-@CDIView(Constants.TITLE_VIEW)
-public class TitleView extends VerticalLayout implements View, Translatable {
+@CDIView(I18n.TITLE_VIEW)
+public class TitleView extends VerticalLayout implements View {
 
+	private I18n i18n;
 	private ListDataProvider<Title> dataProvider;
-	private Title entry;
+//	private Title entry;
 	private Title selectedTitle;
 	private Title prevEntry;
 	private Title nextEntry;
@@ -45,6 +45,9 @@ public class TitleView extends VerticalLayout implements View, Translatable {
 	private Grid<Title> grid;
 
 	public TitleView(TitleService tService, AccountService aService) {
+		setMargin(false);
+
+		i18n = new I18n();
 		this.titleService = tService;
 		this.accountService = aService;
 		this.grid = new Grid<Title>();
@@ -54,27 +57,36 @@ public class TitleView extends VerticalLayout implements View, Translatable {
 		dataProvider = DataProvider.ofCollection(list);
 		dataProvider.setSortOrder(Title::getListPrio, SortDirection.ASCENDING);
 
+		this.grid.setWidth("100%");
+
 		grid.setSelectionMode(SelectionMode.MULTI);
 		grid.addSelectionListener(event -> {
 			selectedTitles = event.getAllSelectedItems();
 		});
+
 		grid.getEditor().setEnabled(true);
 		grid.getEditor().addSaveListener(event -> {
 			selectedTitle = event.getBean();
 			updateRow(selectedTitle);
 		});
+		grid.getEditor().addCancelListener(event -> {
+			refreshGrid();
+		});
 
 		grid.setDataProvider(dataProvider);
-		grid.addColumn(Title::getListPrio).setCaption(LISTPRIO).setId(LISTPRIO);
-		grid.addColumn(title -> title.getTitleValue()).setCaption(VALUE).setEditorComponent(newValueField,
-				Title::setTitleValue).setId(VALUE);;
-		grid.addColumn(Title::getComment).setCaption(COMMENT).setEditorComponent(newCommentField, Title::setComment).setId(COMMENT);;
+		grid.addColumn(Title::getListPrio).setCaption(i18n.BASIC_LIST_PRIO).setId(i18n.BASIC_LIST_PRIO);;
+		grid.addColumn(title -> title.getTitleValue()).setCaption(i18n.TITLE_VALUE).setEditorComponent(newValueField,
+				Title::setTitleValue);
+		grid.addColumn(Title::getComment).setCaption(i18n.BASIC_COMMENT).setEditorComponent(newCommentField,
+				Title::setComment);
 
-		Button edit = new Button("Edit");
+		Button edit = new Button(i18n.BASIC_EDIT);
 		edit.setIcon(VaadinIcons.EDIT);
 
 		Button add = new Button("+");
-		add.addClickListener(event -> addRow());
+		add.addClickListener(event -> {
+			getUI().addWindow(new TitleNewView(this));
+		});
 
 		Button delete = new Button("-");
 		delete.addClickListener(event -> deleteRow());
@@ -95,7 +107,8 @@ public class TitleView extends VerticalLayout implements View, Translatable {
 		bottom.setIcon(VaadinIcons.DOWNLOAD_ALT);
 		bottom.addClickListener(event -> bottomRow());
 
-		Button detail = new Button("detailsView", ev -> {
+		Button detail = new Button("", ev -> {
+
 			if (onlyOneSelected(selectedTitles)) {
 				for (Title entry : selectedTitles) {
 					selectedTitle = entry;
@@ -110,31 +123,30 @@ public class TitleView extends VerticalLayout implements View, Translatable {
 		// tb.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 		// tb.addStyleName("grid-nav-bar");
 
-		addStyleName("pilger-grid");
 		addComponent(grid);
 		addComponent(tb);
 	}
 
-	private void addRow() {
-		entry = new Title();
-		List<Title> list = titleService.getTitleDAO().findAll();
-
-		entry.setCreateBy(getSession().getAttribute(Account.class));
-		entry.setListPrio(getMaxListPrio(titleService) + 1);
-		entry.setTitleValue("");
-		list.add(entry);
-		grid.setItems(list);
-
-		grid.getEditor().editRow(list.size() - 1);
-		newValueField.focus();
-
-		titleService.getTitleDAO().create(entry);
-		refreshGrid();
-	}
+//	private void addRow() {
+//		entry = new Title();
+//		List<Title> list = titleService.getTitleDAO().findAll();
+//
+//		entry.setCreateBy(getSession().getAttribute(Account.class));
+//		entry.setListPrio(getMaxListPrio() + 1);
+//		entry.setTitleValue("");
+//		list.add(entry);
+//		grid.setItems(list);
+//
+//		grid.getEditor().editRow(list.size() - 1);
+//		newValueField.focus();
+//
+//		titleService.getTitleDAO().create(entry);
+//		refreshGrid();
+//	}
 
 	private void deleteRow() {
 		if (selectedTitles.size() == 0) {
-			Notification.show("Nothing selected");
+			Notification.show(i18n.NOTIFICATION_NO_ITEM);
 			return;
 		}
 		for (Title entry : selectedTitles) {
@@ -153,10 +165,10 @@ public class TitleView extends VerticalLayout implements View, Translatable {
 		for (Title entry : selectedTitles) {
 			selectedTitle = entry;
 			if (selectedTitle.getListPrio() == 0) {
-				Notification.show("Item is on the Top");
+				Notification.show(i18n.NOTIFICATION_ONTOP);
 				return;
 			}
-			prevEntry = (Title) titleService.getTitleDAO().findByPriority(entry.getListPrio() - 1).get(0);
+			prevEntry = (Title) titleService.getTitleDAO().findByPriority(selectedTitle.getListPrio() - 1).get(0);
 			selectedTitle.setListPrio(selectedTitle.getListPrio() - 1);
 			prevEntry.setListPrio(prevEntry.getListPrio() + 1);
 			titleService.getTitleDAO().update(selectedTitle);
@@ -175,7 +187,7 @@ public class TitleView extends VerticalLayout implements View, Translatable {
 		}
 
 		if (selectedTitle.getListPrio() == 0) {
-			Notification.show("Item is on the Top");
+			Notification.show(i18n.NOTIFICATION_ONTOP);
 			return;
 		}
 
@@ -202,8 +214,8 @@ public class TitleView extends VerticalLayout implements View, Translatable {
 			selectedTitle = entry;
 		}
 
-		if (selectedTitle.getListPrio() == getMaxListPrio(titleService)) {
-			Notification.show("Item is on the Bottom");
+		if (selectedTitle.getListPrio() == getMaxListPrio()) {
+			Notification.show(i18n.NOTIFICATION_ONTBOTTOM);
 			return;
 		}
 		nextEntry = (Title) titleService.getTitleDAO().findByPriority(selectedTitle.getListPrio() + 1).get(0);
@@ -225,9 +237,9 @@ public class TitleView extends VerticalLayout implements View, Translatable {
 			selectedTitle = entry;
 		}
 
-		maxListPrio = getMaxListPrio(titleService);
+		maxListPrio = getMaxListPrio();
 		if (selectedTitle.getListPrio() == maxListPrio) {
-			Notification.show("Item is on the Bottom");
+			Notification.show(i18n.NOTIFICATION_ONTBOTTOM);
 			return;
 		}
 
@@ -244,19 +256,20 @@ public class TitleView extends VerticalLayout implements View, Translatable {
 	}
 
 	public void updateRow(Title title) {
+		title.setModifyBy(getSession().getAttribute(Account.class));
 		titleService.getTitleDAO().update(title);
 		refreshGrid();
 	}
 
 	public void refreshGrid() {
 		List<Title> list = titleService.getTitleDAO().findAll();
-		grid.sort(LISTPRIO, SortDirection.ASCENDING);
+		grid.sort(i18n.BASIC_LIST_PRIO, SortDirection.ASCENDING);
 		grid.setItems(list);
 	}
-	
-	private int getMaxListPrio(TitleService service) {
+
+	public int getMaxListPrio() {
 		int maxListPrio;
-		List<Title> list = service.getTitleDAO().findAll();
+		List<Title> list = titleService.getTitleDAO().findAll();
 		maxListPrio = 0;
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getListPrio() > maxListPrio) {
@@ -269,33 +282,23 @@ public class TitleView extends VerticalLayout implements View, Translatable {
 	private boolean onlyOneSelected(Set<Title> selected) {
 		boolean isCorrect = true;
 		if (selected.size() > 1) {
-			Notification.show("Only one Item can be selected");
+			Notification.show(i18n.NOTIFICATION_ONLY_ONE_ITEM);
 			isCorrect = false;
 		}
 		if (selected.size() < 1) {
-			Notification.show("One Item must be selected");
+			Notification.show(i18n.NOTIFICATION_EXACT_ONE_ITEM);
 			isCorrect = false;
 		}
 		return isCorrect;
 
 	}
-	
-	@Override
-	public void updateMessageStrings() {
-		final I18nManager i18n = I18nManager.getInstance();
-		this.setCaption(i18n.getMessage("title.windowcaption"));
-		grid.getColumn(LISTPRIO).setCaption(i18n.getMessage("basic.listprio"));
-		grid.getColumn(VALUE).setCaption(i18n.getMessage("person.lastname"));
-		grid.getColumn(COMMENT).setCaption(i18n.getMessage("title.value"));
-	}
 
 	public TitleService getTitleService() {
 		return titleService;
 	}
-	
+
 	public AccountService getAccountService() {
 		return accountService;
 	}
-
 
 }

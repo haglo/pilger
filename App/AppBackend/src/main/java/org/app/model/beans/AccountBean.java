@@ -20,7 +20,6 @@ public class AccountBean implements AccountDAO {
 	@Override
 	public Account create(Account account) {
 		em.persist(account);
-
 		return account;
 	}
 

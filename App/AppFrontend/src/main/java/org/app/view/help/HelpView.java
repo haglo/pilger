@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.app.controler.SessionService;
 import org.app.helper.Constants;
 import org.app.helper.I18nManager;
+import org.app.helper.I18n;
 import org.app.helper.Translatable;
 import org.app.view.MainUI;
 import org.app.view.TopMainMenu;
@@ -26,7 +27,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
-@CDIView(Constants.HELP_VIEW)
+@CDIView(I18n.HELP_VIEW)
 @UIScoped
 public class HelpView extends VerticalLayout implements View, Translatable {
 
@@ -36,6 +37,7 @@ public class HelpView extends VerticalLayout implements View, Translatable {
 	@Inject
 	AboutSubView aboutView;
 
+	private I18n i18n;
 	private Label welcomeMessageLabel = new Label();
 	private Label langMesssageLabel = new Label();
 	private Button about;
@@ -43,7 +45,7 @@ public class HelpView extends VerticalLayout implements View, Translatable {
 	public HelpView() {
 		setSizeFull();
 		setSpacing(true);
-		addComponent(new TopMainMenu());
+		i18n = new I18n();
 	}
 
 	@PostConstruct
@@ -56,6 +58,8 @@ public class HelpView extends VerticalLayout implements View, Translatable {
 		Label username = new Label(sessionService.getCurrentUser().getUsername());
 		about = new Button(ABOUT, ev -> getUI().addWindow(aboutView));
 		about.addStyleName("link");
+		
+		Label tmp01 = new Label(i18n.NOTIFICATION_NO_ITEM);
 
 		addComponent(langMesssageLabel);
 		addComponent(welcomeMessageLabel);
@@ -64,6 +68,7 @@ public class HelpView extends VerticalLayout implements View, Translatable {
 		addComponent(someText());
 		addComponent(navigationBar);
 		addComponent(about);
+		addComponent(tmp01);
 		updateMessageStrings();
 	}
 

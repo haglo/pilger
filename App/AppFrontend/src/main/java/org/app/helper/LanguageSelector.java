@@ -36,7 +36,7 @@ public class LanguageSelector extends ComboBox<Locale> implements Translatable {
 //	}
 	
 	public LanguageSelector(Locale initialLoc) {
-		setCaption("Language");
+		setCaption("");
 		setItems(getLanguageList());
 		setValue(initialLoc);
 		setEmptySelectionAllowed(false);
@@ -69,7 +69,7 @@ public class LanguageSelector extends ComboBox<Locale> implements Translatable {
 		setValue(getLocale());
 		setItemCaptionGenerator(Locale::getLanguage);
 		setItems(getLanguageList());
-		setCaption(i18n.getMessage("auth.selector"));
+//		setCaption(i18n.getMessage("auth.selector"));
 	}
 
 	private List<Locale> getLanguageList() {
