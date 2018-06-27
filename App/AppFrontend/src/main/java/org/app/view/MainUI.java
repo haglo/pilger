@@ -5,9 +5,7 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
-import org.app.controler.SessionService;
 import org.app.controler.SettingsService;
-import org.app.helper.Constants;
 import org.app.helper.I18n;
 import org.app.helper.Translatable;
 import org.app.model.entity.Account;
@@ -18,8 +16,6 @@ import com.vaadin.cdi.CDIUI;
 import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HasComponents;
@@ -39,14 +35,11 @@ public class MainUI extends UI {
 	@Inject
 	SettingsService settingsService;
 	
-	@Inject
-	SessionService sessionService;
-
-
 	private Navigator navigator;
 
 	@Override
 	protected void init(VaadinRequest request) {
+		getSession().setAttribute(I18n.LOCALE, settingsService.getMyLocale());
 		if (isLoggedIn()) {
 			setupMainLayout();
 		} else {
@@ -77,8 +70,8 @@ public class MainUI extends UI {
 		//mainLayout.setMargin(true);
 		//mainLayout.setSpacing(true);
 
-		this.setStyleName("point3");
-		mainLayout.setStyleName("point4");
+//		this.setStyleName("point3");
+//		mainLayout.setStyleName("point4");
 		menuView.setStyleName("point5");
 		contentView.setStyleName("point6");
 		
@@ -96,7 +89,7 @@ public class MainUI extends UI {
 		navigator.setErrorView(loginView);
 
 		String initialState = Optional.ofNullable(navigator.getState()).filter(state -> !state.trim().isEmpty())
-				.orElse(Constants.PERSON_VIEW);
+				.orElse(I18n.PERSON_VIEW);
 		navigator.navigateTo(initialState);
 	}
 

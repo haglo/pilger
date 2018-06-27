@@ -11,12 +11,8 @@ import javax.inject.Inject;
 import org.app.controler.AccountService;
 import org.app.controler.PersonService;
 import org.app.helper.I18n;
-import org.app.model.dao.PersonDAO;
 import org.app.model.entity.Account;
 import org.app.model.entity.Person;
-import org.app.model.entity.Title;
-import org.app.view.TopMainMenu;
-import org.app.view.masterdetail.views.TitleDetailView;
 
 import com.vaadin.cdi.CDIView;
 import com.vaadin.cdi.UIScoped;
@@ -24,7 +20,6 @@ import com.vaadin.data.provider.DataProvider;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
@@ -120,6 +115,7 @@ public class PersonView extends VerticalLayout implements View {
 			selectedPersons = event.getAllSelectedItems();
 			if (selectedPersons.size() == 0) {
 				addressCommunicationContent.removeComponent(addressView);
+				addressCommunicationContent.removeComponent(communicationView);
 				mainContent.removeComponent(addressCommunicationContent);
 				addressCommunicationContent.removeStyleName("visible");
 			} else {

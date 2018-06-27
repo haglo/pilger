@@ -6,12 +6,10 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.app.controler.SessionService;
-import org.app.helper.Constants;
-import org.app.helper.I18nManager;
 import org.app.helper.I18n;
+import org.app.helper.I18nManager;
 import org.app.helper.Translatable;
 import org.app.view.MainUI;
-import org.app.view.TopMainMenu;
 
 import com.vaadin.cdi.CDIView;
 import com.vaadin.cdi.UIScoped;
@@ -30,8 +28,8 @@ import com.vaadin.ui.themes.ValoTheme;
 @CDIView(I18n.HELP_VIEW)
 @UIScoped
 public class HelpView extends VerticalLayout implements View, Translatable {
-
-	@Inject
+	
+	@Inject 
 	SessionService sessionService;
 
 	@Inject
@@ -52,8 +50,8 @@ public class HelpView extends VerticalLayout implements View, Translatable {
 	void init() {
 		final CssLayout navigationBar = new CssLayout();
 		navigationBar.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
-		navigationBar.addComponent(createNavigationButton("Person View (Default)", Constants.PERSON_VIEW));
-		navigationBar.addComponent(createNavigationButton("Master-Detail-View", Constants.MASTER_DETAIL_VIEW));
+		navigationBar.addComponent(createNavigationButton("Person View (Default)", I18n.PERSON_VIEW));
+		navigationBar.addComponent(createNavigationButton("Master-Detail-View", I18n.MASTER_DETAIL_VIEW));
 
 		Label username = new Label(sessionService.getCurrentUser().getUsername());
 		about = new Button(ABOUT, ev -> getUI().addWindow(aboutView));

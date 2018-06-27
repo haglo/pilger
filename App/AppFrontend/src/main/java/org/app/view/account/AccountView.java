@@ -13,7 +13,6 @@ import org.app.controler.AccountService;
 import org.app.helper.I18n;
 import org.app.model.entity.Account;
 import org.app.model.entity.enums.AccountGroup;
-import org.app.view.TopMainMenu;
 
 import com.vaadin.cdi.CDIView;
 import com.vaadin.data.provider.DataProvider;

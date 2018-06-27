@@ -5,8 +5,7 @@ import javax.inject.Inject;
 
 import org.app.controler.AccountService;
 import org.app.controler.TitleService;
-import org.app.helper.Constants;
-import org.app.view.TopMainMenu;
+import org.app.helper.I18n;
 import org.app.view.masterdetail.views.TitleView;
 
 import com.vaadin.cdi.CDIView;
@@ -18,10 +17,9 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
-@CDIView(Constants.MASTER_DETAIL_VIEW)
+@CDIView(I18n.MASTER_DETAIL_VIEW)
 public class MasterDetailView extends VerticalLayout implements View {
 
 	@Inject

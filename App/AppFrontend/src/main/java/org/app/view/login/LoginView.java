@@ -15,6 +15,7 @@ import org.app.helper.Translatable;
 import org.app.model.entity.Account;
 import org.app.view.MainUI;
 
+import com.vaadin.cdi.CDIView;
 import com.vaadin.cdi.UIScoped;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -32,6 +33,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
+@CDIView(I18n.LOGIN_VIEW)
 @UIScoped
 public class LoginView extends VerticalLayout implements View, Translatable {
 
@@ -47,10 +49,12 @@ public class LoginView extends VerticalLayout implements View, Translatable {
 	private Button loginButton;
 	private CheckBox rememberMe;
 	private LanguageSelector languageSelector;
+	private VerticalLayout centeringLayout;
 
 	public LoginView() {
 		setSpacing(true);
 		setStyleName("pilger-login-view");
+//		getSession().setAttribute(I18n.LOCALE, settingsService.getMyLocale());
 
 	}
 
@@ -58,11 +62,12 @@ public class LoginView extends VerticalLayout implements View, Translatable {
 	void init() {
 		sessionService.setCurrentLocale(settingsService.getMyLocale());
 		sessionService.setCurrentTheme(settingsService.getMyTheme());
+//		getSession().setAttribute(I18n.LOCALE, settingsService.getMyLocale());
 
 		// getUI().setLocale((Locale) sessionService.getCurrentLocale());
 
 		Component loginForm = buildLoginForm();
-		VerticalLayout centeringLayout = new VerticalLayout();
+		centeringLayout = new VerticalLayout();
 		centeringLayout.addComponent(loginForm);
 //		centeringLayout.setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
 
@@ -75,7 +80,9 @@ public class LoginView extends VerticalLayout implements View, Translatable {
 		// rememberMe.setCaption(i18n.AUTH_LOGIN);
 		// rememberMe.setCaption(i18n.AUTH_REMEMBER_ME);
 		((MainUI) UI.getCurrent()).setLocale(sessionService.getCurrentLocale());
-
+		getSession().setAttribute(I18n.LOCALE, settingsService.getMyLocale());
+		centeringLayout.addComponent(new Label(getSession().getAttribute(I18n.LOCALE).toString()));
+		centeringLayout.addComponent(new Label("Hallo Welt"));
 	}
 
 	/**
@@ -121,6 +128,7 @@ public class LoginView extends VerticalLayout implements View, Translatable {
 		loginForm.addComponent(loginButton);
 		loginForm.addComponent(rememberMe);
 		loginForm.addComponent(new Label(sessionService.getCurrentLocale().toString()));
+//		loginForm.addComponent(new Label(getSession().getAttribute(I18n.LOCALE).toString()));
 
 		return loginForm;
 	}

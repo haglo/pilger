@@ -1,7 +1,7 @@
 package org.app.view;
 
-import org.app.helper.Constants;
 import org.app.helper.I18nManager;
+import org.app.helper.I18n;
 import org.app.helper.Translatable;
 
 import com.vaadin.icons.VaadinIcons;
@@ -28,12 +28,15 @@ public class TopMainMenu extends CustomComponent implements Translatable {
 		helpViewButton.addStyleName("icon-align-top");
 		settingsViewButton.setIcon(VaadinIcons.COGS);
 		settingsViewButton.addStyleName("icon-align-top");
+		splitViewButton.setIcon(VaadinIcons.ACCORDION_MENU);
+		splitViewButton.addStyleName("icon-align-top");
 		
 		layout.addComponent(personViewButton);
 		layout.addComponent(masterDetailViewButton);
 		layout.addComponent(accountViewButton);
 		layout.addComponent(settingsViewButton);
 		layout.addComponent(helpViewButton);
+		layout.addComponent(splitViewButton);
 		layout.addComponent(logoutButton());
 
 //		layout.setSizeUndefined();
@@ -46,20 +49,22 @@ public class TopMainMenu extends CustomComponent implements Translatable {
 	
 	
 	Button personViewButton = new Button("Addresses",
-			e -> UI.getCurrent().getNavigator().navigateTo(Constants.PERSON_VIEW));
+			e -> UI.getCurrent().getNavigator().navigateTo(I18n.PERSON_VIEW));
 		
 	Button masterDetailViewButton = new Button("Master Detail",
-			e -> UI.getCurrent().getNavigator().navigateTo(Constants.MASTER_DETAIL_VIEW));
+			e -> UI.getCurrent().getNavigator().navigateTo(I18n.MASTER_DETAIL_VIEW));
 		
 	Button accountViewButton = new Button("Accounts",
-			e -> UI.getCurrent().getNavigator().navigateTo(Constants.ACCOUNT_VIEW));
+			e -> UI.getCurrent().getNavigator().navigateTo(I18n.ACCOUNT_VIEW));
 
 	Button helpViewButton = new Button("Help",
-			e -> UI.getCurrent().getNavigator().navigateTo(Constants.HELP_VIEW));
+			e -> UI.getCurrent().getNavigator().navigateTo(I18n.HELP_VIEW));
 		
 	Button settingsViewButton = new Button("Settings",
-			e -> UI.getCurrent().getNavigator().navigateTo(Constants.SETTINGS_VIEW));
+			e -> UI.getCurrent().getNavigator().navigateTo(I18n.SETTINGS_VIEW));
 	
+	Button splitViewButton = new Button("Split",
+			e -> UI.getCurrent().getNavigator().navigateTo(I18n.SPLIT_VIEW));
 	
 
 	private Button logoutButton() {
@@ -83,6 +88,7 @@ public class TopMainMenu extends CustomComponent implements Translatable {
 		accountViewButton.setCaption(i18n.getMessage("navi.accounts"));
 		helpViewButton.setCaption(i18n.getMessage("navi.help"));
 		settingsViewButton.setCaption(i18n.getMessage("navi.settings"));
+		splitViewButton.setCaption(i18n.getMessage("navi.settings"));
 		logOutButton.setCaption(i18n.getMessage("navi.logout"));
 	}
 	

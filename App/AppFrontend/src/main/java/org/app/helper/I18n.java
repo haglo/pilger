@@ -6,12 +6,16 @@ public final class I18n {
 
 	final I18nManager i18m = I18nManager.getInstance();
 
+	public static final String LOGIN_VIEW = "Login";
 	public static final String PERSON_VIEW = "Person";
 	public static final String MASTER_DETAIL_VIEW = "MasterDetail";
 	public static final String ACCOUNT_VIEW = "Account";
 	public static final String HELP_VIEW = "Help";
 	public static final String TITLE_VIEW = "Title";
 	public static final String SETTINGS_VIEW = "Settings";
+	public static final String SPLIT_VIEW = "Split";
+	public static final String THEME = "Theme";
+	public static final String LOCALE = "Locale";
 
 	public String BASIC_EDIT = i18m.getMessage("basic.edit");
 	public String BASIC_SAVE = i18m.getMessage("basic.save");

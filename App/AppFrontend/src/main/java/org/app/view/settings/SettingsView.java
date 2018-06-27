@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.app.controler.SessionService;
 import org.app.controler.SettingsService;
 import org.app.helper.I18n;
 import org.app.model.entity.Settings;
@@ -27,8 +26,6 @@ import com.vaadin.ui.VerticalLayout;
 @CDIView(I18n.SETTINGS_VIEW)
 public class SettingsView extends VerticalLayout implements View {
 
-	@Inject
-	SessionService sessionService;
 
 	@Inject
 	SettingsService settingsService;

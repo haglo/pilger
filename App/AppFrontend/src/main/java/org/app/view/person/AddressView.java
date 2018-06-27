@@ -21,7 +21,8 @@ import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
-public class AddressView extends VerticalLayout implements View {
+public class AddressView extends VerticalLayout {
+//	public class AddressView extends VerticalLayout implements View {
 
 	private I18n i18n;
 	private Grid<Address> grid;
