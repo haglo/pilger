@@ -6,6 +6,7 @@ import org.app.helper.I18n;
 
 import com.vaadin.cdi.CDIView;
 import com.vaadin.cdi.UIScoped;
+import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.navigator.View;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.HorizontalLayout;
@@ -46,6 +47,11 @@ public class SplitView extends VerticalLayout implements View {
 		panel.setSizeFull();
 		
 		addComponent(panel);
+		
+		
+//		SplitLayout layout = new SplitLayout(
+//		        new Label("First content component"),
+//		        new Label("Second content component"));
 
 	}
 
