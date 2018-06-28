@@ -11,8 +11,8 @@ App with Java EE7 + Wildfly 12 + Vaadin 8
 <br/>
 
 #### 1. eclipse: Install IDE
-Download: 	Eclipse IDE for Java EE Developers  
-InstallDir:		C:\dev\ide\e4.6-JEE  
+Download:   Eclipse IDE for Java EE Developers  
+InstallDir:     C:\dev\ide\e4.6-JEE  
 <br/>
 
 #### 2. eclispe: Install JBOSS Tools   
@@ -55,17 +55,19 @@ http://localhost:9990
 
 Configuration > Subsystems > Datasources > Non-XA
 
-- Name:			   			PilgerDS   
-- JNDI:			      			java:jboss/datasources/PilgerDS
-- Driver:			    			mysql-connector-java-5.1.45-bin.jar_com.mysql.jdbc.Driver_5_1
-- Connection URL: 	jdbc:mysql://localhost:3306/pilgerdb?ssl=true
-- User name:		  		pilgeruser
-- Password:		    		123atgfd
+|Value                       | Settings                                                                                                        |
+|------------------------|----------------------------------------------------------------------------------------|
+|Name:                     | PilgerDS      																									|
+|JNDI:			      		   |java:jboss/datasources/PilgerDS																|
+|Driver:			    		   |mysql-connector-java-5.1.45-bin.jar_com.mysql.jdbc.Driver_5_1	|
+|Connection URL:   |jdbc:mysql://localhost:3306/pilgerdb?ssl=true										|
+|User name:		       |pilgeruser																										|
+|Password:		       |123atgfd																										|
 ```
 
 #### 9. Maven (execute on App, not on AppAggregat, AppFrontend and AppBackend)
-Build: clean verify  
-Deploy: clean package wildfly:deploy 
+Build:		clean verify  
+Deploy:	clean package wildfly:deploy 
 
 #### 10. Test
 http://localhost:8080/AppFrontend/
