@@ -59,7 +59,7 @@ Configuration > Subsystems > Datasources > Non-XA
 |Name:                     | PilgerDS      																									|
 |JNDI:			      		   |java:jboss/datasources/PilgerDS																|
 |Driver:			    		   |mysql-connector-java-5.1.45-bin.jar_com.mysql.jdbc.Driver_5_1	|
-|Connection URL:   |jdbc:mysql://localhost:3306/pilgerdb?ssl=true										|
+|Connection URL:   |jdbc:mysql://localhost:3306/pilgerdb														|
 |User name:		       |pilgeruser																										|
 |Password:		       |123atgfd																										|
 

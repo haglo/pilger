@@ -20,6 +20,7 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.shared.data.sort.SortDirection;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Grid;
@@ -51,7 +52,7 @@ public class AccountView extends VerticalLayout implements View {
 		i18n = new I18n();
 //		setSizeFull();
 //		setSpacing(true);
-		setStyleName("point7");
+//		setStyleName("point7");
 		setMargin(new MarginInfo(false, true, true, true));
 	}
 

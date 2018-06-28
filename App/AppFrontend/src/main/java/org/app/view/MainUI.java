@@ -64,28 +64,16 @@ public class MainUI extends UI {
 		final CssLayout contentView = new CssLayout();
 
 		mainLayout.setSizeFull();
-//		mainLayout.setMargin(true);
-//		mainLayout.setSpacing(true);
 		
 		TopMainMenu topNavBar = new TopMainMenu();
 		menuView.addComponent(topNavBar);
 		menuView.setStyleName("pilger-top-nav-bar");
-//		menuView.setHeightUndefined();
 
 		contentView.setStyleName("pilger-content");
 		contentView.setSizeFull();
-//		contentView.setHeightUndefined();
 
 		mainLayout.addComponent(menuView);
 		mainLayout.addComponent(contentView);
-
-//		this.setStyleName("point3");
-//		mainLayout.setStyleName("point4");
-		
-//		mainLayout.setHeight("100%");
-		
-		//mainLayout.setComponentAlignment(menuView, Alignment.MIDDLE_CENTER);
-//		mainLayout.setComponentAlignment(contentView, Alignment.TOP_CENTER);
 
 		setContent(mainLayout);
 
