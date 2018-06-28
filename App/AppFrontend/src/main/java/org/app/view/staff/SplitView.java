@@ -27,7 +27,7 @@ public class SplitView extends VerticalLayout implements View {
 
 	@PostConstruct
 	void init() {
-		Panel panel = new Panel("Split Panels Inside This Panel");
+//		Panel panel = new Panel("Split Panels Inside This Panel");
 
 		VerticalSplitPanel vsplit = new VerticalSplitPanel();
 		vsplit.setSplitPosition(75, Unit.PERCENTAGE);
@@ -43,10 +43,11 @@ public class SplitView extends VerticalLayout implements View {
 		vsplit.setFirstComponent(contentA);
 		vsplit.setSecondComponent(contentB);
 
-		panel.setContent(vsplit);
-		panel.setSizeFull();
+//		panel.setContent(vsplit);
+//		panel.setSizeFull();
 		
-		addComponent(panel);
+//		addComponent(panel);
+		addComponent(vsplit);
 		
 		
 //		SplitLayout layout = new SplitLayout(

@@ -5,6 +5,7 @@
         background-size: cover;
         width: 100%;
         height: 100%;
+        text-align: center;
     	
 		.v-textfield {
       		padding-left: 0;
@@ -59,14 +60,17 @@
  
  
  */
+ 
+ /*
    	.v-slot-pilger-top-nav-bar {
-   		
+   		min-height: 15%
+   		max-height: 15%
    	}
+ */
    
 	.pilger-top-nav-bar  {
 		text-align: center;
 		width: 100%;
-		height: 15%
 	}
 
 	
@@ -80,6 +84,9 @@
 			padding-top: 0px;
 		}
 	}
+
+
+
 
 
 /*

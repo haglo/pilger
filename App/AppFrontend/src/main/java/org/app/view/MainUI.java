@@ -70,10 +70,11 @@ public class MainUI extends UI {
 		TopMainMenu topNavBar = new TopMainMenu();
 		menuView.addComponent(topNavBar);
 		menuView.setStyleName("pilger-top-nav-bar");
-		menuView.setHeightUndefined();
+//		menuView.setHeightUndefined();
 
 		contentView.setStyleName("pilger-content");
 		contentView.setSizeFull();
+//		contentView.setHeightUndefined();
 
 		mainLayout.addComponent(menuView);
 		mainLayout.addComponent(contentView);
