@@ -1,7 +1,5 @@
 package org.app.view.login;
 
-import java.util.Locale;
-
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
@@ -18,8 +16,6 @@ import org.app.view.MainUI;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.cdi.UIScoped;
 import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
@@ -31,6 +27,9 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
+
+
+
 
 @SuppressWarnings("serial")
 @CDIView(I18n.LOGIN_VIEW)
@@ -54,7 +53,7 @@ public class LoginView extends VerticalLayout implements View, Translatable {
 	public LoginView() {
 		setSpacing(true);
 		setStyleName("pilger-login-view");
-//		getSession().setAttribute(I18n.LOCALE, settingsService.getMyLocale());
+		// getSession().setAttribute(I18n.LOCALE, settingsService.getMyLocale());
 
 	}
 
@@ -62,28 +61,19 @@ public class LoginView extends VerticalLayout implements View, Translatable {
 	void init() {
 		sessionService.setCurrentLocale(settingsService.getMyLocale());
 		sessionService.setCurrentTheme(settingsService.getMyTheme());
-//		getSession().setAttribute(I18n.LOCALE, settingsService.getMyLocale());
+		// getSession().setAttribute(I18n.LOCALE, settingsService.getMyLocale());
+		// getSession().setAttribute(I18n.LOCALE, "Hallo");
 
 		// getUI().setLocale((Locale) sessionService.getCurrentLocale());
 
 		Component loginForm = buildLoginForm();
 		centeringLayout = new VerticalLayout();
 		centeringLayout.addComponent(loginForm);
-//		centeringLayout.setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
+		// centeringLayout.setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
 
 		addComponent(centeringLayout);
 	}
 
-	@Override
-	public void enter(ViewChangeEvent event) {
-		// I18n i18n = new I18n();
-		// rememberMe.setCaption(i18n.AUTH_LOGIN);
-		// rememberMe.setCaption(i18n.AUTH_REMEMBER_ME);
-		((MainUI) UI.getCurrent()).setLocale(sessionService.getCurrentLocale());
-		getSession().setAttribute(I18n.LOCALE, settingsService.getMyLocale());
-		centeringLayout.addComponent(new Label(getSession().getAttribute(I18n.LOCALE).toString()));
-		centeringLayout.addComponent(new Label("Hallo Welt"));
-	}
 
 	/**
 	 * Special case - Must be called by MainUI via Interface Translatable
@@ -111,7 +101,7 @@ public class LoginView extends VerticalLayout implements View, Translatable {
 
 		loginButton = new Button("Login", e -> {
 			if (authService.validateAccount(username.getValue(), password.getValue(), rememberMe.getValue())) {
-				getSession().setAttribute(Account.class, authService.getAccount()); 
+				getSession().setAttribute(Account.class, authService.getAccount());
 				((MainUI) UI.getCurrent()).loginSuccessful();
 				((MainUI) UI.getCurrent()).setTheme(settingsService.getMyTheme());
 				((MainUI) UI.getCurrent()).setLocale(languageSelector.getValue());
@@ -127,10 +117,17 @@ public class LoginView extends VerticalLayout implements View, Translatable {
 		loginForm.addComponent(languageSelector);
 		loginForm.addComponent(loginButton);
 		loginForm.addComponent(rememberMe);
-		loginForm.addComponent(new Label(sessionService.getCurrentLocale().toString()));
-//		loginForm.addComponent(new Label(getSession().getAttribute(I18n.LOCALE).toString()));
+		if (getSession() == null) {
+			loginForm.addComponent(new Label(sessionService.getCurrentLocale().toString()));
+		} else {
+			loginForm.addComponent(new Label(getSession().getAttribute(I18n.LOCALE).toString()));
+		}
 
 		return loginForm;
+	}
+
+	public void setSettingsService(SettingsService settingsService) {
+		this.settingsService = settingsService;
 	}
 
 }

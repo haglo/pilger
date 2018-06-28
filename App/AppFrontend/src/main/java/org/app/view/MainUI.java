@@ -16,9 +16,11 @@ import com.vaadin.cdi.CDIUI;
 import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HasComponents;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -39,7 +41,8 @@ public class MainUI extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {
-		getSession().setAttribute(I18n.LOCALE, settingsService.getMyLocale());
+//		loginView.setSettingsService(settingsService);
+//		getSession().setAttribute(I18n.LOCALE, settingsService.getMyLocale());
 		if (isLoggedIn()) {
 			setupMainLayout();
 		} else {
@@ -57,30 +60,31 @@ public class MainUI extends UI {
 
 	private void setupMainLayout() {
 		final VerticalLayout mainLayout = new VerticalLayout();
-		final CssLayout menuView = new CssLayout();
+		final HorizontalLayout menuView = new HorizontalLayout();
 		final CssLayout contentView = new CssLayout();
 
+		mainLayout.setSizeFull();
+//		mainLayout.setMargin(true);
+//		mainLayout.setSpacing(true);
 		
 		TopMainMenu topNavBar = new TopMainMenu();
 		menuView.addComponent(topNavBar);
-		
-		
+		menuView.setStyleName("pilger-top-nav-bar");
+		menuView.setHeightUndefined();
+
+		contentView.setStyleName("pilger-content");
+		contentView.setSizeFull();
+
 		mainLayout.addComponent(menuView);
 		mainLayout.addComponent(contentView);
-		//mainLayout.setMargin(true);
-		//mainLayout.setSpacing(true);
 
 //		this.setStyleName("point3");
 //		mainLayout.setStyleName("point4");
-		menuView.setStyleName("point5");
-		contentView.setStyleName("point6");
 		
-		//mainLayout.setSizeFull();
-		//mainLayout.setHeight("100%");
-		contentView.setSizeFull();
+//		mainLayout.setHeight("100%");
 		
 		//mainLayout.setComponentAlignment(menuView, Alignment.MIDDLE_CENTER);
-		//mainLayout.setComponentAlignment(contentView, Alignment.MIDDLE_CENTER);
+//		mainLayout.setComponentAlignment(contentView, Alignment.TOP_CENTER);
 
 		setContent(mainLayout);
 

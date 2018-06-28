@@ -1,8 +1,17 @@
 package org.app.view;
 
 import org.app.helper.I18nManager;
+
+import java.util.Locale;
+
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.RolesAllowed;
+
 import org.app.helper.I18n;
 import org.app.helper.Translatable;
+import org.app.view.login.LoginView;
+import org.springframework.security.access.annotation.Secured;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
@@ -11,6 +20,8 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
 
+
+@DeclareRoles({"Administrator", "Manager", "Employee"})
 @SuppressWarnings("serial")
 public class TopMainMenu extends CustomComponent implements Translatable {
 	
@@ -43,7 +54,7 @@ public class TopMainMenu extends CustomComponent implements Translatable {
 //		layout.setSpacing(true);
 //		setSizeUndefined();
 		setCompositionRoot(layout);
-		addStyleName("pilger-top-nav-bar");
+//		addStyleName("pilger-top-nav-bar");
 		updateMessageStrings();
 	}
 	
@@ -62,13 +73,15 @@ public class TopMainMenu extends CustomComponent implements Translatable {
 		
 	Button settingsViewButton = new Button("Settings",
 			e -> UI.getCurrent().getNavigator().navigateTo(I18n.SETTINGS_VIEW));
-	
+
+
 	Button splitViewButton = new Button("Split",
 			e -> UI.getCurrent().getNavigator().navigateTo(I18n.SPLIT_VIEW));
 	
-
+	
 	private Button logoutButton() {
 		logOutButton = new Button("Logout", new Button.ClickListener() {
+
 			@Override
 			public void buttonClick(ClickEvent event) {
 				getUI().getSession().close();

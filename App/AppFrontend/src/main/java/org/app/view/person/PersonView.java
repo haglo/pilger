@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.DenyAll;
 import javax.inject.Inject;
 
 import org.app.controler.AccountService;

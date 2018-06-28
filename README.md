@@ -50,8 +50,8 @@ Target:	C:\dev\wildfly\wildfly-12\standalone\deployments\mysql-connector-java-5.
 <br/>
 
 #### 8. WildFly: Create Datasource
-
-http://http://localhost:9990
+```
+http://localhost:9990
 
 Configuration > Subsystems > Datasources > Non-XA
 
@@ -61,7 +61,7 @@ Configuration > Subsystems > Datasources > Non-XA
 - Connection URL: jdbc:mysql://localhost:3306/pilgerdb?ssl=true
 - User name:		  pilgeruser
 - Password:		    123atgfd
-
+```
 
 #### 9. Maven (execute on App, not on AppAggregat, AppFrontend and AppBackend)
 Build: clean verify  
