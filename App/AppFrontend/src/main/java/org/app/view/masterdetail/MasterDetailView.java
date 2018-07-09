@@ -40,17 +40,7 @@ public class MasterDetailView extends VerticalLayout implements View {
 
 	public MasterDetailView() {
 		setSizeFull();
-
-//		setSpacing(true);
-//		setMargin(new MarginInfo(false, true, true, true));
-
-		/**
-		 * obige Padding händisch gesetzt
-		 */
-		setStyleName("point10");
 		setMargin(new MarginInfo(true, true, true, true));
-
-		
 		setWidth("1000px");
 	}
 
@@ -74,6 +64,7 @@ public class MasterDetailView extends VerticalLayout implements View {
 		masterDetailLeftNavBar.addComponent(head);
 	
 		masterDetailLeftNavBar.addComponent(showTitleView());
+		masterDetailContent.addComponent(new TitleView(titleService, accountService));
 		// masterDetailLeftNavBar.addComponent(showLandView());
 
 		mainView.addComponent(masterDetailLeftNavBar);

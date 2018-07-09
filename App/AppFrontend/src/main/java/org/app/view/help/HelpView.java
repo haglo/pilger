@@ -16,8 +16,9 @@ import com.vaadin.cdi.UIScoped;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
@@ -27,7 +28,7 @@ import com.vaadin.ui.themes.ValoTheme;
 @SuppressWarnings("serial")
 @CDIView(I18n.HELP_VIEW)
 @UIScoped
-public class HelpView extends VerticalLayout implements View, Translatable {
+public class HelpView extends HorizontalLayout implements View, Translatable {
 	
 	@Inject 
 	SessionService sessionService;
@@ -41,14 +42,15 @@ public class HelpView extends VerticalLayout implements View, Translatable {
 	private Button about;
 
 	public HelpView() {
-		setSizeFull();
-		setSpacing(true);
+//		setSizeFull();
+//		setSpacing(true);
 		i18n = new I18n();
 	}
 
 	@PostConstruct
 	void init() {
-		final CssLayout navigationBar = new CssLayout();
+		VerticalLayout content = new VerticalLayout();
+		final HorizontalLayout navigationBar = new HorizontalLayout();
 		navigationBar.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 		navigationBar.addComponent(createNavigationButton("Person View (Default)", I18n.PERSON_VIEW));
 		navigationBar.addComponent(createNavigationButton("Master-Detail-View", I18n.MASTER_DETAIL_VIEW));
@@ -59,14 +61,16 @@ public class HelpView extends VerticalLayout implements View, Translatable {
 		
 		Label tmp01 = new Label(i18n.NOTIFICATION_NO_ITEM);
 
-		addComponent(langMesssageLabel);
-		addComponent(welcomeMessageLabel);
-		addComponent(username);
-		addComponent(headingLabel());
-		addComponent(someText());
-		addComponent(navigationBar);
-		addComponent(about);
-		addComponent(tmp01);
+		content.addComponent(langMesssageLabel);
+		content.addComponent(welcomeMessageLabel);
+		content.addComponent(username);
+		content.addComponent(headingLabel());
+		content.addComponent(someText());
+		content.addComponent(navigationBar);
+		content.addComponent(about);
+		content.addComponent(tmp01);
+		addComponent(content);
+		setDefaultComponentAlignment(Alignment.TOP_CENTER);
 		updateMessageStrings();
 	}
 

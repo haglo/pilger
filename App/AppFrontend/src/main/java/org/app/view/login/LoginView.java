@@ -59,8 +59,8 @@ public class LoginView extends VerticalLayout implements View, Translatable {
 
 	@PostConstruct
 	void init() {
-		sessionService.setCurrentLocale(settingsService.getMyLocale());
-		sessionService.setCurrentTheme(settingsService.getMyTheme());
+		sessionService.setCurrentLocale(settingsService.getAppLocale());
+		sessionService.setCurrentTheme(settingsService.getAppTheme());
 		// getSession().setAttribute(I18n.LOCALE, settingsService.getMyLocale());
 		// getSession().setAttribute(I18n.LOCALE, "Hallo");
 
@@ -103,7 +103,7 @@ public class LoginView extends VerticalLayout implements View, Translatable {
 			if (authService.validateAccount(username.getValue(), password.getValue(), rememberMe.getValue())) {
 				getSession().setAttribute(Account.class, authService.getAccount());
 				((MainUI) UI.getCurrent()).loginSuccessful();
-				((MainUI) UI.getCurrent()).setTheme(settingsService.getMyTheme());
+				((MainUI) UI.getCurrent()).setTheme(settingsService.getAppTheme());
 				((MainUI) UI.getCurrent()).setLocale(languageSelector.getValue());
 			} else {
 				Notification.show(authService.getMessageForAuthentication());

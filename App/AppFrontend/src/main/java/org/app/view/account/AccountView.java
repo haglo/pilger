@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.app.controler.AccountService;
+import org.app.controler.SettingsService;
 import org.app.helper.I18n;
 import org.app.model.entity.Account;
 import org.app.model.entity.enums.AccountGroup;
@@ -23,8 +24,10 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
+import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
@@ -32,10 +35,14 @@ import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
 @CDIView(I18n.ACCOUNT_VIEW)
-public class AccountView extends VerticalLayout implements View {
+public class AccountView extends HorizontalLayout implements View {
 
 	@Inject
 	AccountService accountService;
+	
+	@Inject
+	SettingsService settings;
+
 
 	private I18n i18n;
 	private Account account;
@@ -50,21 +57,22 @@ public class AccountView extends VerticalLayout implements View {
 
 	public AccountView() {
 		i18n = new I18n();
-//		setSizeFull();
-//		setSpacing(true);
-//		setStyleName("point7");
 		setMargin(new MarginInfo(false, true, true, true));
 	}
 
 	@PostConstruct
 	void init() {
+		setSizeFull();
+		setWidth(settings.getAppWindowWidth());
+
+		VerticalLayout content = new VerticalLayout();
 		selectedAccounts = new HashSet<>();
 		List<Account> accountList = accountService.findAll();
 		accountList.sort(Comparator.comparing(Account::getUsername));
 
 		DataProvider<Account, ?> dataProvider = DataProvider.ofCollection(accountList);
 		grid = new Grid<Account>();
-		grid.setWidth("1000px");
+		grid.setSizeFull();
 		grid.setSelectionMode(SelectionMode.MULTI);
 		grid.addSelectionListener(event -> {
 			selectedAccounts = event.getAllSelectedItems();
@@ -92,9 +100,6 @@ public class AccountView extends VerticalLayout implements View {
 		grid.addColumn(Account::getComment).setCaption(i18n.BASIC_COMMENT).setEditorComponent(txfComment,
 				Account::setComment);
 
-//		Button add = new Button("+");
-//		add.addClickListener(event -> addRow());
-		
 		Button add = new Button("+");
 		add.addClickListener(event -> {
 			getUI().addWindow(new AccountNewView(this));
@@ -113,9 +118,12 @@ public class AccountView extends VerticalLayout implements View {
 		});
 		detail.setIcon(VaadinIcons.PENCIL);
 
-		HorizontalLayout tb = new HorizontalLayout(add, delete, detail);
-		addComponent(grid);
-		addComponent(tb);
+		CssLayout accountNavBar = new CssLayout(add, delete, detail);
+		accountNavBar.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
+		content.addComponent(grid);
+		content.addComponent(accountNavBar);
+		addComponent(content);
+		setDefaultComponentAlignment(Alignment.TOP_CENTER);
 	}
 
 //	private void addRow() {

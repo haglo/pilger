@@ -39,6 +39,7 @@ public class InitializePerson {
 			address.setStreet("St.-Afra-Weg 1");
 			address.setZip("11111");
 			address.setCity("Pfaffenhofen");
+			address.prePersist();
 			address.setPerson(person);
 			person.getAddresses().add(address);
 
@@ -47,8 +48,10 @@ public class InitializePerson {
 			address.setZip("22222");
 			address.setCity("Pfaffenhofen");
 			address.setPerson(person);
+			address.prePersist();
 			person.getAddresses().add(address);
 
+			person.prePersist();
 			personDAO.update(person);
 
 			/**
@@ -63,6 +66,7 @@ public class InitializePerson {
 			address.setZip("33333");
 			address.setCity("Pfaffenhofen");
 			address.setPerson(person);
+			address.prePersist();
 			person.getAddresses().add(address);
 
 			address = new Address();
@@ -70,8 +74,10 @@ public class InitializePerson {
 			address.setZip("44444");
 			address.setCity("Pfaffenhofen");
 			address.setPerson(person);
+			address.prePersist();
 			person.getAddresses().add(address);
 			
+			person.prePersist();			
 			personDAO.update(person);
 			
 //			personHelper = new PersonHelper();

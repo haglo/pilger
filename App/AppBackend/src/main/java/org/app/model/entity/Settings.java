@@ -17,9 +17,7 @@ import org.app.model.entity.enums.DefaultTheme;
 
 @Entity
 @Table(name = "SETTINGS")
-@NamedQueries(
-		{ 	@NamedQuery(name = Settings.QUERY_FIND_ALL, query = "SELECT c FROM Settings c")
-		})
+@NamedQueries({ @NamedQuery(name = Settings.QUERY_FIND_ALL, query = "SELECT c FROM Settings c") })
 public class Settings implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -34,13 +32,14 @@ public class Settings implements Serializable {
 	 */
 	@Enumerated(EnumType.STRING)
 	private DefaultLanguage defaultLanguage;
-	
+
 	/**
 	 * Einbinden: Enum Languages über ComboBox
 	 */
 	@Enumerated(EnumType.STRING)
 	private DefaultTheme defaultTheme;
 
+	private String DefaultWindowWidth;
 
 	public int getId() {
 		return id;
@@ -64,6 +63,14 @@ public class Settings implements Serializable {
 
 	public void setDefaultTheme(DefaultTheme defaultTheme) {
 		this.defaultTheme = defaultTheme;
+	}
+
+	public String getDefaultWindowWidth() {
+		return DefaultWindowWidth;
+	}
+
+	public void setDefaultWindowWidth(String defaultWindowWidth) {
+		DefaultWindowWidth = defaultWindowWidth;
 	}
 
 }

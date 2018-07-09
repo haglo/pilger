@@ -16,6 +16,8 @@ public final class I18n {
 	public static final String SPLIT_VIEW = "Split";
 	public static final String THEME = "Theme";
 	public static final String LOCALE = "Locale";
+	
+	public static String MIN_WIDTH;
 
 	public String BASIC_EDIT = i18m.getMessage("basic.edit");
 	public String BASIC_SAVE = i18m.getMessage("basic.save");
@@ -58,6 +60,7 @@ public final class I18n {
 
 	public String SETTINGS_LANGUAGE = i18m.getMessage("settings.language");
 	public String SETTINGS_THEME = i18m.getMessage("settings.theme");
+	public String SETTINGS_WINDOW_WIDTH = i18m.getMessage("settings.windowwidth");
 
 	public String HELP_LANGUAGE = i18m.getMessage("help.language");
 

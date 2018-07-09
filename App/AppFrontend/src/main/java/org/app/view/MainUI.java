@@ -41,8 +41,6 @@ public class MainUI extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {
-//		loginView.setSettingsService(settingsService);
-//		getSession().setAttribute(I18n.LOCALE, settingsService.getMyLocale());
 		if (isLoggedIn()) {
 			setupMainLayout();
 		} else {
@@ -61,19 +59,23 @@ public class MainUI extends UI {
 	private void setupMainLayout() {
 		final VerticalLayout mainLayout = new VerticalLayout();
 		final HorizontalLayout menuView = new HorizontalLayout();
-		final CssLayout contentView = new CssLayout();
-
-		mainLayout.setSizeFull();
+		final HorizontalLayout contentView = new HorizontalLayout();
+		contentView.setSizeFull();
+		contentView.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 		
 		TopMainMenu topNavBar = new TopMainMenu();
 		menuView.addComponent(topNavBar);
-		menuView.setStyleName("pilger-top-nav-bar");
-
-		contentView.setStyleName("pilger-content");
-		contentView.setSizeFull();
 
 		mainLayout.addComponent(menuView);
 		mainLayout.addComponent(contentView);
+
+		mainLayout.setComponentAlignment(menuView, Alignment.TOP_CENTER);
+		mainLayout.setComponentAlignment(contentView, Alignment.TOP_CENTER);
+		
+		mainLayout.setExpandRatio(menuView, 0.10f);
+		mainLayout.setExpandRatio(contentView, 0.90f);
+
+		mainLayout.setSizeFull();
 
 		setContent(mainLayout);
 

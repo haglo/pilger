@@ -43,14 +43,14 @@ public class PersonBean implements PersonDAO {
 	}
 
 	@Override
-	public void remove(int id) {
+	public void remove(Integer id) {
 		Person toBeDeleted = findByID(id);
 		em.remove(toBeDeleted);
 		em.flush();
 	}
 
 	@Override
-	public Person findByID(int id) {
+	public Person findByID(Integer id) {
 		return em.find(Person.class, id);
 	}
 

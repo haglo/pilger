@@ -18,8 +18,10 @@ import com.vaadin.navigator.View;
 import com.vaadin.shared.data.sort.SortDirection;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
+import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
@@ -119,12 +121,15 @@ public class TitleView extends VerticalLayout implements View {
 		});
 		detail.setIcon(VaadinIcons.PENCIL);
 
-		HorizontalLayout tb = new HorizontalLayout(add, delete, up, top, down, bottom, detail);
+
+		CssLayout titleNavBar = new CssLayout(add, delete, up, top, down, bottom, detail);
+		titleNavBar.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
+		
 		// tb.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 		// tb.addStyleName("grid-nav-bar");
 
 		addComponent(grid);
-		addComponent(tb);
+		addComponent(titleNavBar);
 	}
 
 //	private void addRow() {

@@ -30,13 +30,13 @@ public class AddressBean implements AddressDAO {
 	}
 
 	@Override
-	public void remove(int id) {
+	public void remove(Integer id) {
 		Address toBeDeleted = findByID(id);
 		em.remove(toBeDeleted);
 	}
 
 	@Override
-	public Address findByID(int id) {
+	public Address findByID(Integer id) {
 		return em.find(Address.class, id);
 	}
 

@@ -1,6 +1,7 @@
 package org.app.model.entity;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -31,6 +32,8 @@ public class Address implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	private String uuid;
 
 	private String street;
 	
@@ -53,6 +56,14 @@ public class Address implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 	public String getStreet() {
@@ -95,30 +106,34 @@ public class Address implements Serializable {
 		this.person = person;
 	}
 	
+	public void prePersist() {
+		if (getUuid() == null) {
+			setUuid(UUID.randomUUID().toString());
+		}
+	}
+
 	@Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	public int hashCode() {
+		int hash = 0;
+		hash += (uuid != null ? uuid.hashCode() : 0);
+		return hash;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Address)) {
-            return false;
-        }
-        Address other = (Address) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Address)) {
+			return false;
+		}
+		Address other = (Address) object;
+		if ((this.uuid == null && other.uuid != null) || (this.uuid != null && !this.uuid.equals(other.uuid))) {
+			return false;
+		}
+		return true;
+	}
 
-    @Override
-    public String toString() {
-        return "app.Address[id=" + id + "]";
-    }
-
+	@Override
+	public String toString() {
+		return "Address[uuid=" + uuid + "]";
+	}
 
 }

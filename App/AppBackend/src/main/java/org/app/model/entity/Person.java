@@ -3,7 +3,10 @@ package org.app.model.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -36,6 +39,8 @@ public class Person implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	private String uuid;
 
 	/**
 	 * Einbinden: Entity Account über ComboBox
@@ -62,7 +67,7 @@ public class Person implements Serializable {
 	private String comment;
 
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private List<Address> addresses = new ArrayList<Address>();
+	private Set<Address> addresses = new HashSet<Address>();
 
 	public Integer getId() {
 		return id;
@@ -70,6 +75,14 @@ public class Person implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 	public String getFirstName() {
@@ -96,11 +109,11 @@ public class Person implements Serializable {
 		this.comment = comment;
 	}
 
-	public List<Address> getAddresses() {
+	public Set<Address> getAddresses() {
 		return addresses;
 	}
 
-	public void setAddresses(List<Address> addresses) {
+	public void setAddresses(Set<Address> addresses) {
 		this.addresses = addresses;
 	}
 
@@ -147,4 +160,35 @@ public class Person implements Serializable {
 	public void setModifyBy(Account modifyBy) {
 		this.modifyBy = modifyBy;
 	}
+	
+	public void prePersist() {
+		if (getUuid() == null) {
+			setUuid(UUID.randomUUID().toString());
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (uuid != null ? uuid.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Person)) {
+			return false;
+		}
+		Person other = (Person) object;
+		if ((this.uuid == null && other.uuid != null) || (this.uuid != null && !this.uuid.equals(other.uuid))) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Person[uuid=" + uuid + "]";
+	}
+
 }

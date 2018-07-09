@@ -22,8 +22,10 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
+import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
@@ -183,7 +185,8 @@ public class PersonView extends VerticalLayout implements View {
 		});
 		detail.setIcon(VaadinIcons.PENCIL);
 
-		personNavBar.addComponents(add, delete, detail);
+		CssLayout personNavBar = new CssLayout(add, delete, detail);
+		personNavBar.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 
 		personContent.addComponent(personGrid);
 		personContent.addComponent(personNavBar);

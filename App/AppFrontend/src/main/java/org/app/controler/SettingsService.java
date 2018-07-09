@@ -37,7 +37,7 @@ public class SettingsService {
 		return settingsDAO;
 	}
 
-	public Locale getMyLocale() {
+	public Locale getAppLocale() {
 		Locale SPANISH = new Locale("es");
 
 		Settings mySettings = new Settings();
@@ -60,7 +60,7 @@ public class SettingsService {
 		}
 	}
 	
-	public String getMyTheme() {
+	public String getAppTheme() {
 		Settings mySettings = new Settings();
 		List<Settings> settings = settingsDAO.findAll();
 		for (Settings entry : settings) {
@@ -90,5 +90,13 @@ public class SettingsService {
 		}
 	}
 
+	public String getAppWindowWidth() {
+		Settings mySettings = new Settings();
+		List<Settings> settings = settingsDAO.findAll();
+		for (Settings entry : settings) {
+			mySettings = entry;
+		}	
+		return mySettings.getDefaultWindowWidth();
+	}
 	
 }

@@ -10,9 +10,9 @@ public interface AddressDAO {
 
 	public Address update(Address address);
 
-	public void remove(int id);
+	public void remove(Integer id);
 
-	public Address findByID(int id);
+	public Address findByID(Integer id);
 
 	public List<Address> findAll();
 }

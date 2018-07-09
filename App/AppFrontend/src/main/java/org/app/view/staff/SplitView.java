@@ -1,7 +1,9 @@
 package org.app.view.staff;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
+import org.app.controler.SettingsService;
 import org.app.helper.I18n;
 
 import com.vaadin.cdi.CDIView;
@@ -19,7 +21,9 @@ import com.vaadin.ui.VerticalSplitPanel;
 @CDIView(I18n.SPLIT_VIEW)
 @UIScoped
 public class SplitView extends VerticalLayout implements View {
-
+	@Inject
+	SettingsService settingsService;
+	
 	public SplitView() {
 //		setSplitPosition(70, Sizeable.UNITS_PERCENTAGE);
 		setSizeFull();
@@ -27,6 +31,7 @@ public class SplitView extends VerticalLayout implements View {
 
 	@PostConstruct
 	void init() {
+		setWidth(settingsService.getAppWindowWidth());
 //		Panel panel = new Panel("Split Panels Inside This Panel");
 
 		VerticalSplitPanel vsplit = new VerticalSplitPanel();

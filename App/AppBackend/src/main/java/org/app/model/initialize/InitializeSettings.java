@@ -25,6 +25,7 @@ public class InitializeSettings {
 
 			settings.setDefaultLanguage(DefaultLanguage.english);
 			settings.setDefaultTheme(DefaultTheme.Default);
+			settings.setDefaultWindowWidth("1200px");
 			settingsDAO.update(settings);
 		}
 	}

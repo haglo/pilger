@@ -11,9 +11,9 @@ public interface PersonDAO {
 
 	public Person update(Person person);
 
-	public void remove(int id);
+	public void remove(Integer id);
 
-	public Person findByID(int id);
+	public Person findByID(Integer id);
 
 	public List<Person> findAll();
 

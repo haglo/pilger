@@ -15,9 +15,11 @@ import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.navigator.View;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Grid.SelectionMode;
+import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
@@ -56,9 +58,11 @@ public class CommunicationView extends VerticalLayout {
 		
 		Button add = new Button("+");
 		Button delete = new Button("-");
+
+		CssLayout communicationNavBar = new CssLayout(add, delete);
+		communicationNavBar.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 		
-		addressNavBar = new HorizontalLayout(add, delete);
 		addComponent(grid);
-		addComponent(addressNavBar);
+		addComponent(communicationNavBar);
 	}
 }
